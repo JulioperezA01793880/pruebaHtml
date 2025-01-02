@@ -1433,12 +1433,13 @@ function guardarFila() {
 
 
         // algoritmo para comprobar solapamiento de citas
+	let FiltroCitas=[];
         let contadorlocalguardar=0;
         let[horainstantanea,minutosinstantaneos]=hora.split(':').map(Number);
         let totalMinutosinstantaneos = (horainstantanea * 60) + minutosinstantaneos;
         //console.log("minutosinstantaneos",totalMinutosinstantaneos);
 
-        let FiltroCitas = datosCitas.filter(p => p.fecha === fecha);
+        FiltroCitas = datosCitas.filter(p => p.fecha === fecha);
         //console.log("filtrocitas1",FiltroCitas);
         if(FiltroCitas.length===0){
            // datosCitas.push(cita); redundacia corregir
