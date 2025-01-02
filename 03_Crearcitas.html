@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+        /* Estilo del botón de regreso */
+        .regresarButton {
+                color: #090909;
+                padding: 0.7em 1.7em;
+                font-size: 18px;
+                border-radius: 0.5em;
+                background: #e8e8e8;
+                cursor: pointer;
+                border: 1px solid #e8e8e8;
+                transition: all 0.3s;
+                box-shadow: 6px 6px 12px #c5c5c5, -6px -6px 12px #ffffff;
+        }
+        /* Estilo del botón de regreso */
+        
+
+        .regresarButton:active {
+            color: #666;
+            box-shadow: inset 4px 4px 12px #c5c5c5, inset -4px -4px 12px #ffffff;
+        }
+
+
+
+        .button:hover {
+        transform: scale(1.02);
+        box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
+            0 15px 30px rgba(0, 0, 0, 0.3), 0 10px 3px -3px rgba(0, 0, 0, 0.04);
+        }
+        .button:active {
+        transform: scale(1);
+        box-shadow: 0 0 1px 2px rgba(255, 255, 255, 0.3),
+            0 10px 3px -3px rgba(0, 0, 0, 0.2);
+        }
+        .button:after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: var(--radius);
+        border: 2.5px solid transparent;
+        background: linear-gradient(var(--neutral-1), var(--neutral-2)) padding-box,
+            linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.45))
+            border-box;
+        z-index: 0;
+        transition: all 0.4s ease;
+        }
+        .button:hover::after {
+        transform: scale(1.05, 1.1);
+        box-shadow: inset 0 -1px 3px 0 rgba(255, 255, 255, 1);
+        }
+        .button::before {
+        content: "";
+        inset: 7px 6px 6px 6px;
+        position: absolute;
+        background: linear-gradient(to top, var(--neutral-1), var(--neutral-2));
+        border-radius: 30px;
+        filter: blur(0.5px);
+        z-index: 2;
+        }
+        .state p {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+        .state .icon {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        transform: scale(1.25);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        }
+        .state .icon svg {
+        overflow: visible;
+        }
+
+        /* Outline */
+        .outline {
+        position: absolute;
+        border-radius: inherit;
+        overflow: hidden;
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        inset: -2px -3.5px;
+        }
+        .outline::before {
+        content: "";
+        position: absolute;
+        inset: -100%;
+        background: conic-gradient(
+            from 180deg,
+            transparent 60%,
+            white 80%,
+            transparent 100%
+        );
+        animation: spin 2s linear infinite;
+        animation-play-state: paused;
+        }
+        @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+        }
+        .button:hover .outline {
+        opacity: 1;
+        }
+        .button:hover .outline::before {
+        animation-play-state: running;
+        }
+
+        /* Letters */
+        .state p span {
+        display: block;
+        opacity: 0;
+        animation: slideDown 0.8s ease forwards calc(var(--i) * 0.03s);
+        }
+        .button:hover p span {
+        opacity: 1;
+        animation: wave 0.5s ease forwards calc(var(--i) * 0.02s);
+        }
+        .button:focus p span {
+        opacity: 1;
+        animation: disapear 0.6s ease forwards calc(var(--i) * 0.03s);
+        }
+        @keyframes wave {
+        30% {
+            opacity: 1;
+            transform: translateY(4px) translateX(0) rotate(0);
+        }
+        50% {
+            opacity: 1;
+            transform: translateY(-3px) translateX(0) rotate(0);
+            color: var(--primary);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) translateX(0) rotate(0);
+        }
+        }
+        @keyframes slideDown {
+        0% {
+            opacity: 0;
+            transform: translateY(-20px) translateX(5px) rotate(-90deg);
+            color: var(--primary);
+            filter: blur(5px);
+        }
+        30% {
+            opacity: 1;
+            transform: translateY(4px) translateX(0) rotate(0);
+            filter: blur(0);
+        }
+        50% {
+            opacity: 1;
+            transform: translateY(-3px) translateX(0) rotate(0);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) translateX(0) rotate(0);
+        }
+        }
+        @keyframes disapear {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+            transform: translateX(5px) translateY(20px);
+            color: var(--primary);
+            filter: blur(5px);
+        }
+        }
+
+        /* Plane */
+        .state--default .icon svg {
+        animation: land 0.6s ease forwards;
+        }
+        .button:hover .state--default .icon {
+        transform: rotate(45deg) scale(1.25);
+        }
+        .button:focus .state--default svg {
+        animation: takeOff 0.8s linear forwards;
+        }
+        .button:focus .state--default .icon {
+        transform: rotate(0) scale(1.25);
+        }
+        @keyframes takeOff {
+        0% {
+            opacity: 1;
+        }
+        60% {
+            opacity: 1;
+            transform: translateX(70px) rotate(45deg) scale(2);
+        }
+        100% {
+            opacity: 0;
+            transform: translateX(160px) rotate(45deg) scale(0);
+        }
+        }
+        @keyframes land {
+        0% {
+            transform: translateX(-60px) translateY(30px) rotate(-50deg) scale(2);
+            opacity: 0;
+            filter: blur(3px);
+        }
+        100% {
+            transform: translateX(0) translateY(0) rotate(0);
+            opacity: 1;
+            filter: blur(0);
+        }
+        }
+
+        /* Contrail */
+        .state--default .icon:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        height: 2px;
+        width: 0;
+        left: -5px;
+        background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.5));
+        }
+        .button:focus .state--default .icon:before {
+        animation: contrail 0.8s linear forwards;
+        }
+        @keyframes contrail {
+        0% {
+            width: 0;
+            opacity: 1;
+        }
+        8% {
+            width: 15px;
+        }
+        60% {
+            opacity: 0.7;
+            width: 80px;
+        }
+        100% {
+            opacity: 0;
+            width: 160px;
+        }
+        }
+
+        /* States */
+        .state {
+        padding-left: 29px;
+        z-index: 2;
+        display: flex;
+        position: relative;
+        }
+        .state--default span:nth-child(4) {
+        margin-right: 5px;
+        }
+        .state--sent {
+        display: none;
+        }
+        .state--sent svg {
+        transform: scale(1.25);
+        margin-right: 8px;
+        }
+        .button:focus .state--default {
+        position: absolute;
+        }
+        .button:focus .state--sent {
+        display: flex;
+        }
+        .button:focus .state--sent span {
+        opacity: 0;
+        animation: slideDown 0.8s ease forwards calc(var(--i) * 0.2s);
+        }
+        .button:focus .state--sent .icon svg {
+        opacity: 0;
+        animation: appear 1.2s ease forwards 0.8s;
+        }
+        @keyframes appear {
+        0% {
+            opacity: 0;
+            transform: scale(4) rotate(-40deg);
+            color: var(--primary);
+            filter: blur(4px);
+        }
+        30% {
+            opacity: 1;
+            transform: scale(0.6);
+            filter: blur(1px);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.2);
+            filter: blur(0);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+        }
+
+        /* Estilos para la tabla y celdas */
+        .calendarios{
+            width: 75%;
+            background: white;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 40px;
+            border-radius: 40px;
+            background-color: hsl(120deg 20% 95%);
+            box-shadow: 17px 17px 34px 0px rgb(124, 134, 124), 
+                inset -8px -8px 16px 0px rgba(117, 133, 117, 0.7), 
+                inset 0px 14px 28px 0px hsl(120deg 20% 95%);
+            }
+        
+
+        table{
+            border-collapse: collapse; /* Asegura que los bordes de las celdas estén unidos */
+            width: 70%; /* Ajusta el ancho de la tabla al 100% */
+        }
+        th {
+            background-color: #4CAF50; /* Color de fondo verde suave */
+            color: white; /* Color del texto blanco */
+            padding: 12px 20px; /* Espaciado interno para dar más espacio */
+            text-align: center; /* Centrado del texto */
+            font-size: 16px; /* Tamaño de la fuente */
+            border: 1px solid #ddd; /* Borde sutil */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra ligera para darle profundidad */
+            transition: background-color 0.3s ease; /* Transición suave al cambiar el color */
+}
+
+        td {
+            cursor: pointer;
+            border: 1px solid rgb(204, 201, 201); /* Aplica un borde negro a las celdas */
+            padding: 10px; /* Agrega espacio dentro de las celdas */
+            text-align: center; /* Centra el contenido en la celda */
+        }
+        td:hover {
+            background-color: #aaa7a7; /* Cambia el color de fondo */
+            color: rgb(10, 10, 10); /* Cambia el color del texto */
+        }
+        td:active{
+            
+                 box-shadow: inset -2px -2px 5px #c4c4c4,
+                 inset 2px 2px 5px #ffffff;
+                 transform: translateY(2px);
+        }
+       
+        .select{
+            border:none;
+            
+            border-radius:5px;
+            }
+        .button1{
+            max-width: 200px;
+            min-height: 20px;
+            color: #090909;
+            padding: 10px;
+            font-size: 15px;
+            border-radius: 0.5em;
+            background: #e8e8e8;
+            cursor: pointer;
+            border: 1px solid #e8e8e8;
+            transition: all 0.3s;
+            box-shadow:
+                6px 6px 12px #c5c5c5,
+                -6px -6px 12px #ffffff;
+            }
+
+            .button1:active {
+            color: #666;
+            box-shadow:
+                0px 0px 0px #c5c5c5,
+                0px 0px 0px #ffffff,
+                inset 4px 4px 12px #c5c5c5,
+                inset -4px -4px 12px #ffffff;
+            }
+            .input {
+                max-width: 200px;
+                min-height: 10px;
+                padding: 8px;
+                font-family: 'Courier New', Courier, monospace;
+                outline: none;
+                background: #e8e8e8;
+                box-shadow: 5px 5px 17px #c8c8c8,
+                            -5px -5px 17px #ffffff;
+                border: none;
+                border-radius: 10px;
+                transition: all .5s;
+                }
+
+                .input:focus {
+                background: #e8e8e8;
+                box-shadow: inset 5px 5px 17px #c8c8c8,
+                            inset -5px -5px 17px #ffffff;
+                }
+    </style>    
+</head>
+<body>
+    <div>
+    <button class="regresarButton" onclick="window.location.href = '02_Login.html';">
+        Regresar a Inicio
+    </button>  
+    </div> 
+    </div>
+    <!-- tabla calendario-->
+   <div  id="calendarios" class="calendarios">
+    <P>Calendario</P>
+    <table id="calendario">
+       
+            <tr>
+                <th>Domingo</th>
+                <th>Lunes</th>
+                <th>Martes</th>
+                <th>Miercoles</th>
+                <th>Jueves</th>
+                <th>Viernes</th>
+                <th>sabado</th>
+            </tr>
+        
+    </table>
+   
+   </div> 
+                <!-- tabla crear citas-->
+   <div>
+    <p style="align-content: center; text-align: center;">Crear citas</p>
+   </div>
+   
+
+   <div>
+        <table id="tablacitas">
+        <tr>
+            <th>id</th>
+            <th>Fecha</th>
+            <th>Hora</th>
+            <th>Duracion</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Medico</th>
+            <th>T.examen</th>
+            <th>Estado</th>
+            <th>Accion</th>
+        </tr>
+        <tr>    
+            <td  class="celdascrearcitas" id="">
+                <input class="input" type="text" id="Id" placeholder="Ingrese N° identificacion">
+            </td>
+            <td  class="celdascrearcitas">
+                <input class="input" type="date" id="Fecha" name="fecha">
+            </td>
+            <td>
+                <input class="input" type="time" id="Hora" name="horaS"></input>
+            </td>
+            <td>
+                <input class="input" type="number" id="Duracion" name="Duracion" min="5" max="60" step="5" placeholder="Ej. 30" required></input>
+            </td>
+            <td>
+                <input class="input" type="text" id="Nombre" placeholder="ingrese nombre">
+            </td>
+
+            <td>
+                <input class="input" type="text" id="Apellido" placeholder="ingrese apellido">
+            </td>
+
+            <td>
+                <select id="Medico" name="Medicos" >
+                    <option value="Medico_1">Medico_1</option>
+                    <option value="Medico_2">Medico_2</option>
+                    
+                </select>
+            </td>
+
+            <td>
+                <select id="Examen" name="Examen" >
+                    <option value="Abdomem">E.Abdomen</option>
+                    <option value="Vias_urinarias">E.vias urinarias</option>
+                    <option value="Tejidos_blandos">E.Tejidos blandos</option>
+                    
+                </select>
+            </td>
+
+            <td>
+                <select id="Estado" name="opciones" >
+                    <option value="Disponible">Disponible</option>
+                    <option value="Seleccionada">Seleccionada</option>
+                    
+                </select>
+            </td>
+                
+            <td>
+                <button class="button1" onclick="guardarFila()">Guardar</button>
+            </td>
+        </tr>
+           
+        </table>
+   </div>
+
+   <div>
+    <p style="align-content: center; text-align: center;">Citas creadas</p>
+   </div>
+
+   <div>
+        <table  >
+            <thead> 
+                <tr>
+                    <th>id</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Estado</th>
+                    <th>Accion</th>
+                </tr>
+            </thead> 
+            <tbody id="citascreadas">
+
+            </tbody>    
+
+        </table>
+   </div>
+   
+
+   <button onclick=especial()>especial</button>
+
+
+    <div>
+    <p style="align-content: center; text-align: center;">Citas Usuarios</p>
+   </div>
+
+   <!-- citas usuarios-->
+
+   <div>
+        <table  >
+            <thead> 
+                <tr>
+                    <th>id</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Estado</th>
+                    <th>Accion</th>
+                </tr>
+            </thead> 
+            <tbody id="citasusuarios">
+
+            </tbody>    
+
+        </table>
+   </div>
+
+   <div>
+    <p style="align-content: center; text-align: center;">Consultas de citas</p>
+   </div>
+            <!-- consultas de citas-->
+
+   <div>
+
+        <div>
+            <nav>
+                <a href=""> consultarcitas</a>
+                <a href="">historicos de citas</a>
+
+            </nav>
+        </div>
+
+        <div>
+
+            <input type="text" id="Nidentificacion" placeholder="Ingrese N° de identificacion">
+            <button onclick=consultarcitas()>Consultar</button>
+        </div>
+
+        <div>
+            <table  >
+                <thead> 
+                    <tr>
+                        <th>id</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Estado</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead> 
+                <tbody id="consulta de citas">
+
+                </tbody>    
+
+            </table>
+        </div>
+   
+    </div>    
+
+ 
+</body>
+<script>
+    let username;
+    let password;
+    let identificacionglobal;
+    let nombreglobal;
+    let datosCitas ;
+
+
+    citascreadas = localStorage.getItem("citascreadas");
+    //console.log("probando_recibir1",citascreadas);
+        //console.log("probando_recibir",citascreadas);
+
+        
+            // Convertir el JSON a objeto
+    datosCitas = JSON.parse(citascreadas);
+
+    //window.addEventListener('load', function() {
+        // Recuperar el usuario desde localStorage
+        const loggedUser = localStorage.getItem("loggedUser");
+       // console.log("pruebatraslado",loggedUser)
+
+        if (loggedUser) {
+            // Convertir el JSON a objeto
+            const user = JSON.parse(loggedUser);
+
+            // Cargar los datos del usuario en variables
+            username = user.username;
+            password = user.password;
+            identificacionglobal=user.identificacionglobal;
+            nombreglobal=user.nombreglobal;
+
+            // Usar los datos del usuario como necesites
+            //console.log("Usuario:", username);
+            //console.log("Contraseña:", password);
+
+            // Puedes mostrar el nombre de usuario en la página, por ejemplo:
+            //document.getElementById("welcomeMessage").textContent = `Bienvenido, ${username}!`;
+        } else {
+            // Si no hay usuario en localStorage, redirigir a la página de login
+            window.location.href = "login.html";
+        }
+   // });
+   //console.log("usuario",username,password,identificacionglobal,nombreglobal)    
+    
+
+    
+
+    let year=2024;
+    let month=12;
+    let day=12;
+
+
+
+
+    const resultado = document.getElementById('calendario');
+    const fechaActual = new Date();
+    const primerDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
+    const diaSemana = fechaActual.getDay();
+    const dia1mesactual = primerDiaDelMes.getDay();
+    const diaultimomesactual=new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1,0);
+    const ultimoDiames = diaultimomesactual.getDate();
+    const formatearfecha= fechaActual.toLocaleDateString() + " " + diaSemana
+    const compensaciondiasmes=ultimoDiames+dia1mesactual;
+    //document.getElementById('mostrar').textContent = dia1mesactual;
+
+    for( let i=0; i < compensaciondiasmes;i++){
+        const crearfilacelda=document.createElement("tr");
+        resultado.appendChild(crearfilacelda);
+
+        
+        for(let j=0; j < 7; j++){
+            i=i+1;
+            if(i>compensaciondiasmes){
+                break;
+            }
+            else if(i > dia1mesactual){
+                //k=k+1
+                const crearcelda=document.createElement("td");
+                crearcelda.textContent=((i-dia1mesactual));
+                resultado.appendChild(crearcelda);
+            }
+            else{
+                const crearcelda=document.createElement("td");
+                crearcelda.textContent=(" ") ;
+                resultado.appendChild(crearcelda);
+            }
+        }
+
+            i=i-1;
+    }
+
+
+
+    const tabla2 = document.getElementById("calendario");
+        // Seleccionamos todas las celdas de la tabla con id "tabla2"
+        const celdasTabla2 = tabla2.querySelectorAll("td");
+
+        // Añadimos el listener para cada celda de "tabla2"
+        celdasTabla2.forEach(function(celda) {
+            celda.addEventListener("click", capturarClicCelda);
+        });
+
+    actualizarColoresCalendario();    
+
+    function actualizarColoresCalendario() {
+        const celdasTabla = document.querySelectorAll('#calendario td');
+    console.log("recibiendollamado", datosCitas);
+    
+    celdasTabla.forEach(celda => {
+        const dia = celda.textContent.trim();
+        if (!dia) return; // Ignorar celdas vacías
+
+        const fecha = `${year}-${String(month).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+        const citasDelDia = datosCitas.filter(cita => cita.fecha === fecha);
+        console.log("recibiendollamadocitasdeldia", citasDelDia);
+        if (citasDelDia.length === 0) {
+            // No hay citas en esta fecha
+            celda.style.backgroundColor = "white"; // Sin color para fechas sin citas
+        } else if (citasDelDia.every(cita => cita.estado === "Seleccionada")) {
+            celda.style.backgroundColor = "#cdd4d9"; // Gris si todas las citas están seleccionadas
+            //Sconsole.log("Todas las citas están seleccionadas en:", fecha);
+        } else if (citasDelDia.some(cita => cita.estado === "Disponible")) {
+            celda.style.backgroundColor = "#4bc9ff"; // Azul si hay citas disponibles
+        } else {
+            //celda.style.backgroundColor = "white"; // Sin color si no hay citas
+        }
+    });
+    }
+        
+    
+    function capturarClicCelda(event) {
+             citascreadas = localStorage.getItem("citascreadas");
+            // Accedemos al contenido de la celda clickeada
+            const contenido = event.target.innerText;
+            const celdas = document.querySelectorAll("td");  // Selecciona todas las celdas de la tabla
+            celdas.forEach(function(celda) {
+            celda.style.backgroundColor = ""; 
+            celda.style.boxShadow = "";// Elimina el color de fondo de todas las celdas
+            limpiarCitasCreadas();
+            
+            
+    });
+            event.target.style.backgroundColor = "gray";
+            event.target.style.boxShadow = "inset -2px -2px 5px #c4c4c4, inset 2px 2px 5px #ffffff";
+            event.target.style.transform = "translateY(2px)";
+            //alert("Has hecho clic en la celda con el contenido: " + contenido);
+            const date = `${year}-${String(month).padStart(2, '0')}-${String(contenido).padStart(2, '0')}`;
+            document.getElementById('Fecha').value = date;
+            mostrarconclick(date);
+            mostrarUsuariosconclick(date);
+            actualizarColoresCalendario(); 
+            
+            
+        }
+
+    // mostrar en tabla citas creadas
+
+    function mostrarconclick(date){
+            
+            // Buscar en el array de citas
+            //console.log("probando",datosCitas);
+            document.getElementById('citascreadas').innerHTML = "";
+            //console.log("probandomostrarclicik",datosCitas);
+            const citaEncontrada = datosCitas.filter(cita => cita.fecha === date);
+            //console.log("citasencotradas",citaEncontrada);    
+            if (citaEncontrada.length > 0) {
+                // Si se encuentra la cita, mostrar los datos (o realizar otra acción)
+                //console.log(citaEncontrada); // Puedes reemplazar esto con tu lógica para mostrar los datos en la interfaz
+                const resultado1 = document.getElementById('citascreadas');
+        
+
+        citaEncontrada.forEach(function(cita,index) {
+            const fila = document.createElement("tr");
+
+            const celdaid = document.createElement("td");
+            celdaid.textContent = cita.id;
+            fila.appendChild(celdaid);
+
+            const celdafecha = document.createElement("td");
+            celdafecha.textContent = cita.fecha;
+            fila.appendChild(celdafecha);
+
+            const celdahora = document.createElement("td");
+            celdahora.textContent = cita.hora;
+            fila.appendChild(celdahora);
+
+            const celdanombre = document.createElement("td");
+            celdanombre.textContent = cita.nombre;
+            const nombre1=cita.nombre;
+            fila.appendChild(celdanombre);
+
+            const celdapellido = document.createElement("td");
+            celdapellido.textContent = cita.apellido;
+            fila.appendChild(celdapellido);
+
+            const celdaestado= document.createElement("td");
+            celdaestado.textContent = cita.estado;
+            fila.appendChild(celdaestado);
+
+            const celdaccion = document.createElement("td");
+            const boton = document.createElement("button");
+            boton.textContent = "Eliminar";
+            boton.onclick = () => eliminarcitas(index,date,nombre1);
+            celdaccion.appendChild(boton);
+            fila.appendChild(celdaccion);
+
+            resultado1.appendChild(fila);
+        });
+    
+            } else {
+                document.getElementById('citascreadas').innerHTML = "";
+            }
+            
+         actualizarColoresCalendario();
+        }
+
+    // guardar citas    
+    function guardarFila() {
+            limpiarCitasCreadas();
+            const id = document.getElementById(`Id`).value;
+            const fecha = document.getElementById(`Fecha`).value;
+            const hora = document.getElementById(`Hora`).value;
+            const nombre = document.getElementById(`Nombre`).value;
+            const apellido = document.getElementById(`Apellido`).value;
+            const estado = document.getElementById(`Estado`).value;
+            //console.log(fecha);
+        // Crear el objeto con los datos de la fila
+        const cita = {
+            id: id,
+            fecha: fecha,
+            hora: hora,
+            nombre: nombre,
+            apellido: apellido,
+            estado: estado
+        }
+
+        // Guardar los datos en el array
+        datosCitas.push(cita);
+
+        mostrarconclick(fecha,nombre);
+        mostrarUsuariosconclick(fecha);
+        actualizarColoresCalendario(); 
+        console.log("probando grabado",datosCitas)
+        localStorage.setItem("citascreadas", JSON.stringify(datosCitas));
+        console.log("probando_salidaguardar",datosCitas);
+        //mostrar()
+    }
+
+    // mostrar en tabla citas creadas creo que no trabaja
+
+    function mostrar() {
+        const fechaSeleccionada = document.getElementById('Fecha').value;
+        
+        const resultado = document.getElementById('citascreadas');
+        
+
+        datosCitas.forEach(function(cita) {
+                const fila = document.createElement("tr");
+
+                const celdaid = document.createElement("td");
+                celdaid.textContent = cita.id;
+                fila.appendChild(celdaid);
+
+                const celdafecha = document.createElement("td");
+                celdafecha.textContent = cita.fecha;
+                fila.appendChild(celdafecha);
+
+                const celdahora = document.createElement("td");
+                celdahora.textContent = cita.hora;
+                fila.appendChild(celdahora);
+
+                const celdanombre = document.createElement("td");
+                celdanombre.textContent = cita.nombre;
+                fila.appendChild(celdanombre);
+
+                const celdapellido = document.createElement("td");
+                celdapellido.textContent = cita.apellido;
+                fila.appendChild(celdapellido);
+
+                const celdaestado= document.createElement("td");
+                celdaestado.textContent = cita.estado;
+                fila.appendChild(celdaestado);
+
+                const celdaccion = document.createElement("td");
+                const boton = document.createElement("button");
+                boton.textContent = "Eliminar";
+                boton.onclick = () => eliminar(index);
+                celdaccion.appendChild(boton);
+                fila.appendChild(celdaccion);
+
+                resultado.appendChild(fila);
+            });
+        };
+
+    function limpiarCitasCreadas() {
+            //const resultado = document.getElementById('citascreadas');
+            //const resultado2 = document.getElementById('citasusuarios');
+            //console.log("Datos de citas:", resultado.firstElementChild);
+           
+
+            
+                 
+            document.getElementById('citascreadas').innerHTML = "";
+            document.getElementById('citasusuarios').innerHTML = "";
+            //const tablaCitasCreadas = document.getElementById('citascreadas');
+            //while (tablaCitasCreadas.firstChild) {
+            //tablaCitasCreadas.removeChild(tablaCitasCreadas.firstChild);
+        }
+    //}
+
+    function especial(){
+        //console.log("datoscitasgeneral",datosCitas)
+    }
+
+    // mostar citas a usuarios
+    function mostrarUsuariosconclick(date) {
+    //console.log("probando", identificacionglobal);
+    //console.log("probandofecha", date);
+    document.getElementById('citasusuarios').innerHTML = "";
+
+    // Crear un nuevo array que incluya tanto los datos como el índice original
+    const citasConIndices = datosCitas
+        .map((cita, index) => ({ ...cita, index }))
+        .filter(cita => cita.fecha === date && cita.estado === "Disponible");
+
+    if (citasConIndices.length === 0) {
+       // console.log("Cita no encontrada", datosCitas);
+    } else {
+        const resultado2 = document.getElementById('citasusuarios');
+        resultado2.innerHTML = ""; // Limpiar tabla anterior
+
+        citasConIndices.forEach(function(cita) {
+            //console.log("probandoindex", cita);
+
+            const fila = document.createElement("tr");
+
+            const celdaid = document.createElement("td");
+            //celdaid.textContent = cita.id;
+            celdaid.textContent = identificacionglobal;
+            fila.appendChild(celdaid);
+
+            const celdafecha = document.createElement("td");
+            celdafecha.textContent = cita.fecha;
+            fila.appendChild(celdafecha);
+
+            const celdahora = document.createElement("td");
+            celdahora.textContent = cita.hora;
+            fila.appendChild(celdahora);
+
+            const celdanombre = document.createElement("td");
+            celdanombre.textContent = cita.nombre;
+            fila.appendChild(celdanombre);
+
+            const celdapellido = document.createElement("td");
+            celdapellido.textContent = cita.apellido;
+            fila.appendChild(celdapellido);
+
+            const celdaestado = document.createElement("td");
+            celdaestado.textContent = cita.estado;
+            fila.appendChild(celdaestado);
+
+            const celdaccion = document.createElement("td");
+            const boton = document.createElement("button");
+            boton.textContent = "seleccionar";
+            boton.onclick = () =>
+                seleccionarcita(cita.index, date, celdanombre, fila, boton, cita.estado);
+            celdaccion.appendChild(boton);
+            fila.appendChild(celdaccion);
+
+            resultado2.appendChild(fila);
+        });
+    }
+}
+
+    function eliminarcitas(index,date,nombre){
+            //console.log("verificarindex:", index);
+            //console.log("verificardate:", date);
+            //console.log("verificarnombre:", nombre);
+            //console.log("entrada",datosCitas);
+            const citaParaEliminar = datosCitas.find(cita => cita.nombre === nombre && cita.fecha === date);
+            //const citaParaEliminar = datosCitas.find(cita => cita.fecha === date);
+            if (citaParaEliminar) {
+            const citaIndex = datosCitas.indexOf(citaParaEliminar);
+            if (citaIndex !== -1) {
+            // Eliminar la cita en el índice encontrado
+            datosCitas.splice(citaIndex, 1);
+            //console.log("salida:", datosCitas);
+            //console.log("Array actualizado:", datosCitas);
+            localStorage.setItem("citascreadas", JSON.stringify(datosCitas));
+            mostrarconclick(date);
+            mostrarUsuariosconclick(date);
+            actualizarColoresCalendario(); 
+            
+
+
+            
+        }
+    }
+}
+
+    function seleccionarcita(index, date,celdanombre, fila, boton,celdaestado) {
+        // Cambiar el estado de la cita a "Seleccionada"
+        
+        //console.log("entrada",boton);
+        //console.log("entradadatos",index,date,celdanombre,fila,boton,celdaestado);
+        //datosCitas[index].estado = "Seleccionada";
+        if (datosCitas[index].fecha === date && datosCitas[index].estado === "Disponible") {
+        // Cambiar el estado a "Seleccionada"
+        datosCitas[index].estado = "Seleccionada";
+        datosCitas[index].id = identificacionglobal;
+        datosCitas[index].nombre = nombreglobal;
+    }
+        //console.log("Cita actualizada:", datosCitas[index]);
+        
+        
+
+
+        // Actualizar visualmente el botón y la fila
+        
+        //boton.textContent = "Cancelar";
+        //boton.onclick = () => cancelarCita(index, date, fila, boton);
+
+        // Eliminar la fila de la tabla de citas disponibles
+        fila.remove();
+        localStorage.setItem("citascreadas", JSON.stringify(datosCitas));
+        //console.log("probando_salidaguardar",datosCitas);
+        mostrarconclick(date);
+        //mostrarUsuariosconclick(fecha);
+        actualizarColoresCalendario();
+
+        //console.log("Estado actualizado:", datosCitas);
+    }
+    
+    function consultarcitas(){
+        //console.log("todas_1",datosCitas);
+        const consultarid = document.getElementById(`Nidentificacion`).value;
+        //console.log("id",consultarid);
+        const citasConsultadas = datosCitas.map((cita, index) => ({ ...cita, index })).filter(cita => cita.id === consultarid && cita.estado === "Seleccionada");
+        //console.log("consultar",citasConsultadas);
+    if (citasConsultadas.length === 0) {
+        console.log("usted no tiene citas", datosCitas);
+    } else {
+        const resultado3 = document.getElementById('consulta de citas');
+        resultado3.innerHTML = ""; // Limpiar tabla anterior
+
+        citasConsultadas.forEach(function(cita) {
+            //console.log("probandoindex", cita);
+
+            const fila = document.createElement("tr");
+
+            const celdaid = document.createElement("td");
+            celdaid.textContent = cita.id;
+            fila.appendChild(celdaid);
+
+            const celdafecha = document.createElement("td");
+            celdafecha.textContent = cita.fecha;
+            fila.appendChild(celdafecha);
+
+            const celdahora = document.createElement("td");
+            celdahora.textContent = cita.hora;
+            fila.appendChild(celdahora);
+
+            const celdanombre = document.createElement("td");
+            celdanombre.textContent = cita.nombre;
+            fila.appendChild(celdanombre);
+
+            const celdapellido = document.createElement("td");
+            celdapellido.textContent = cita.apellido;
+            fila.appendChild(celdapellido);
+
+            const celdaestado = document.createElement("td");
+            celdaestado.textContent = cita.estado;
+            fila.appendChild(celdaestado);
+
+            const celdaccion = document.createElement("td");
+            const boton = document.createElement("button");
+            boton.textContent = "Cancelar";
+            boton.onclick = () =>
+                cancelarcita(cita.index, celdanombre, fila, boton, cita.estado);
+            celdaccion.appendChild(boton);
+            fila.appendChild(celdaccion);
+
+            resultado3.appendChild(fila);
+        });
+    }
+
+    }
+    function cancelarcita(index,celdanombre, fila, boton,celdaestado) {
+       
+        
+        datosCitas[index].estado = "Disponible";
+        datecancelar=datosCitas[index].fecha;
+    
+        
+        
+        
+   
+
+        
+        fila.remove();
+        const resultado3 = document.getElementById('consulta de citas');
+        //resultado3.innerHTML = ""; // Limpiar tabla anterior
+        //console.log("Cita actualizada:", datosCitas);
+        localStorage.setItem("citascreadas", JSON.stringify(datosCitas));
+        mostrarconclick(datecancelar);
+        mostrarUsuariosconclick(datecancelar);
+        
+    }
+    
+    //setTimeout(() => {
+    //console.log("Usuario fuera del load (después de timeout):", username,password);
+    //},12);
+
+    let datosCitas1 = [
+    { id: 1, hora: "10:00 AM", fecha: "2024-12-23" },
+    { id: 2, hora: "11:00 AM", fecha: "2024-12-24" }
+];
+    localStorage.setItem("citascreadas", JSON.stringify(datosCitas));
+    //console.log("probando_salida",datosCitas);
+    </script> 
+
+</html>   

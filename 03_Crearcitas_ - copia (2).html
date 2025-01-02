@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<style>
+    
+    * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: #e3e6e4;
+        }
+
+      /* barra navegadora*/
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #2c3e50, #34495e); /* Nuevo color */
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #ffcc00; /* Color dorado */
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li {
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s, background-color 0.3s;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: #f39c12; /* Color de fondo al pasar el ratón */
+        }
+
+        .nav-links a.active {
+            background-color: #f39c12; /* Color al estar activo */
+            color: white;
+        }
+
+        .burger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .burger div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            transition: transform 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 10px;
+                background-color: #2c3e50;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                padding: 20px;
+                border-radius: 8px;
+            }
+
+            .burger {
+                display: flex;
+            }
+        }
+ /* barra navegadora_final */
+
+
+     /* Barra lateral derecha */
+
+     .sidebar {
+        position: fixed;
+        top: 96px;
+        left: 0;
+        width: 200px;
+        height: calc(100% - 60px);
+        background-color: #34495e;
+        color: white;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+        
+    }
+
+    .user-info {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .user-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+    }
+
+    .user-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .user-role {
+        font-size: 0.9em;
+        margin-bottom: 10px;
+    }
+
+    .sidebar-links {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar-links li {
+        margin: 15px 0;
+    }
+
+    .sidebar-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.1em;
+        transition: color 0.3s;
+    }
+
+    .sidebar-links a:hover {
+        color: #f39c12;
+    }
+  
+
+
+     /* Barra lateral derecha_final */    
+
+     .main-content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding: 10px;
+        margin-left: 200px; /* Espacio para el sidebar */
+    }
+        
+        
+        
+
+
+
+    /* estilos calendario */
+	#cal { 
+        padding: 0px; 
+	    -moz-box-shadow:0px 3px 3px rgba(0, 0, 0, 0.25); 
+	    -webkit-box-shadow:0px 3px 3px rgba(0, 0, 0, 0.25); 
+	    margin:50px auto; 
+	    font: 13px/1.5 "Helvetica Neue", Helvatica, Arial, san-serif; 
+	    display:table; 
+	}
+    #cal .header { 
+	    cursor:default; 
+	    background: #cd310d; 
+	    background: -moz-linear-gradient(top, #b32b0c, #cd310d); 
+	    background: -webkit-gradient(linear, left top, left bottom, from(#b32b0c), to(#cd310d)); 
+	    height: 34px; 
+	    position: relative; 
+	    color:#fff; 
+	    -webkit-border-top-left-radius: 5px; 
+	    -webkit-border-top-right-radius: 5px; 
+	    -moz-border-radius-topleft: 5px; 
+	    -moz-border-radius-topright: 5px; 
+	    border-top-left-radius: 5px; 
+	    border-top-right-radius: 5px; 
+	    font-weight:bold; 
+	    text-shadow:0px -1px 0 #87260C; 
+	    text-transform: uppercase; 
+	} 
+	#cal .header span { 
+	    display:inline-block; 
+	    line-height:34px; 
+	}
+    #cal .header .hook { 
+	    width: 9px; 
+	    height: 28px; 
+	    position: absolute; 
+	    bottom:60%; 
+	    border-radius:10px; 
+	    -moz-border-radius:10px; 
+	    -webkit-border-radius:10px; 
+	    background:#ececec; 
+	    background: -moz-linear-gradient(right top, #fff, #827e7d); 
+	    background: -webkit-gradient(linear, right top, right bottom, from(#fff), to(#827e7d)); 
+	    box-shadow:0px -1px 2px rgba(0, 0, 0, 0.65 ); 
+	    -moz-box-shadow:0px -1px 2px rgba(0, 0, 0, 0.65 ); 
+	    -webkit-box-shadow:0px -1px 2px rgba(0, 0, 0, 0.65 ); 
+	} 
+	.right.hook { 
+	    right:15%; 
+	} 
+	.left.hook { 
+	    left: 15%; 
+	}
+    #cal .header .button { 
+	    width:24px; 
+	    text-align:center; 
+	    position:absolute; 
+	} 
+	#cal .header .left.button { 
+	    left:0; 
+	    -webkit-border-top-left-radius: 5px; 
+	    -moz-border-radius-topleft: 5px; 
+	    border-top-left-radius: 5px; 
+	    border-right:1px solid #ae2a0c; 
+	} 
+	#cal .header .right.button { 
+	    right:0; 
+	    top:0; 
+	    border-left:1px solid #ae2a0c; 
+	    -webkit-border-top-right-radius: 5px; 
+	    -moz-border-radius-topright: 5px; 
+	    border-top-right-radius: 5px; 
+	} 
+	#cal .header .button:hover { 
+	    background: -moz-linear-gradient(top, #f34ace, #f54ae7); 
+	    background: -webkit-gradient(linear, left top, left bottom, from(#ee31de), to(#f038f0)); 
+	}
+    #cal .header .month-year { 
+	    letter-spacing: 1px; 
+	    width: 100%; 
+	    text-align: center; 
+	}
+
+
+    #cal table { 
+        
+	    background:#fff; 
+	    border-collapse:collapse; 
+	} 
+	#cal td { 
+	    color:#2b2b2b; 
+	    width:40px; 
+	    height:40px; 
+	    line-height:30px; 
+	    text-align:center; 
+	    /*border:1px solid #e6e6e6; */
+	    cursor:default; 
+        border-radius: 1px; /* redondear la celda*/
+        font-weight: 400;
+        text-shadow: 0px 0px 1px rgba(0, 0, 0, 0.1); /* Simulación de grosor */
+        transition: all 0.3s ease;
+	} 
+	#cal #days td { 
+	    height:26px; 
+	    line-height: 26px; 
+	    text-transform:uppercase; 
+	    font-size:90%; 
+	    color:#9e9e9e; 
+        
+	} 
+	#cal #days td:not(:last-child) { 
+	    border-right:1px solid #fff; 
+	}
+
+    /* tabla citas */
+    .tabla-citas {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+        margin: 40px 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    .tabla-citas thead {
+        background: linear-gradient(to right, #007bff, #28a745);
+        color: #ffffff;
+        text-transform: uppercase;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .tabla-citas thead th {
+        padding: 12px;
+        text-align: center;
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .tabla-citas thead th:last-child {
+        border-right: none;
+    }
+
+    .tabla-citas tbody tr {
+        background: #f8f9fc;
+        border-bottom: 1px solid #e3e6f0;
+        transition: background 0.2s;
+    }
+
+    .tabla-citas tbody tr:hover {
+        background: #f1f3f6;
+    }
+
+    .tabla-citas tbody td {
+        padding: 10px;
+        text-align: center;
+        color: #5a5c69;
+        
+    }
+
+    .container1 {
+    position: relative; /* Contenedor para el sidebar */
+}
+
+/* estilo boton selecionar cita */
+.boton-seleccionar {
+    background-color: #1e7220; /* Color de fondo */
+    color: white;             /* Color del texto */
+    border: none;             /* Sin borde */
+    padding: 6px 5px;       /* Espaciado interno */
+    text-align: center;       /* Centrado del texto */
+    font-size: 14px;          /* Tamaño de fuente */
+    cursor: pointer;          /* Cambia el cursor al pasar el mouse */
+    border-radius: 5px;       /* Bordes redondeados */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+.boton-seleccionar:hover {
+    background-color: #65df6b; /* Color al pasar el mouse */
+}
+
+/* mensaje no hay citas*/
+.divmensaje {
+    display: none; /* Por defecto, ocultar */
+    background-color: #f9f9f9; /* Fondo claro */
+    color: #333;              /* Texto oscuro */
+    border: 2px solid #4CAF50; /* Borde verde */
+    border-radius: 10px;       /* Bordes redondeados */
+    padding: 20px;             /* Espaciado interno */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+    font-family: 'Arial', sans-serif; /* Fuente moderna */
+    font-size: 18px;           /* Tamaño de texto */
+    max-width: 400px;          /* Ancho máximo */
+    margin: 20px auto;         /* Centrado horizontal */
+    text-align: center;        /* Texto centrado */
+    animation: aparecer 0.5s ease-out; /* Animación al aparecer */
+}
+
+.divmensaje:not(:empty) {
+    display: block; /* Mostrar solo cuando no esté vacío */
+
+
+}
+
+
+/* circulos disponibilidad*/
+    .legend {
+    position: absolute; /* Permite posicionar libremente el div */
+    top: 230px; /* Ajusta según la posición vertical deseada */
+    left: 240px; /* Ajusta según la posición horizontal deseada */
+    display: flex;
+    flex-direction: column; /* Organiza los elementos en columna */
+    gap: 15px; /* Espacio entre las filas de la leyenda */
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center; /* Alinea círculo y texto en la misma línea */
+    gap: 10px; /* Espacio entre el círculo y el texto */
+}
+
+.circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 5%;
+    flex-shrink: 0; /* Evita que el círculo se deforme */
+}
+
+.circle.red {
+    background-color: rgb(202, 200, 200);/*d3d2d1*/
+}
+
+.circle.blue {
+    background-color: rgb(119, 208, 243);
+}
+.circle.white {
+    background-color: rgb(255, 255, 255);
+}
+
+/* estilos de los input tabla crear citas*/
+
+
+.input {
+    max-width: 200px;
+    min-height: 10px;
+    padding: 8px;
+    font-family: 'Courier New', Courier, monospace;
+    outline: none;
+    background: #e8e8e8;
+    box-shadow: 5px 5px 17px #c8c8c8,
+                -5px -5px 17px #ffffff;
+    border: none;
+    border-radius: 10px;
+    transition: all .5s;
+    }
+
+    input:hover{
+    border-color: #4bc9ff;
+    background-color: #e9f5ff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .input:focus {
+    
+    box-shadow: inset 5px 5px 17px #c8c8c8,
+                inset -5px -5px 17px #ffffff;
+                outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    }
+
+
+
+
+/* Contenedor para el select */
+
+
+/* Estilo base del select */
+.custom-select {
+    appearance: none; /* Quita el estilo predeterminado del navegador */
+    width: 100%;
+    padding: 5px 5px;
+    border: 1px solid #f8f9fb;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    font-size: 12px;
+    font-family: 'Courier New', Courier, monospace;
+    
+    color: #8b8a8a;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Cambios al pasar el mouse */
+.custom-select:hover {
+    border-color: #4bc9ff;
+    background-color: #e9f5ff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Cambios al enfocar */
+.custom-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
+/* Flecha personalizada */
+.custom-select::after {
+    content: '▼';
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 12px;
+    color: #5a5a5a;
+}
+
+/* Quita el borde de la flecha en navegadores que no soportan `appearance` */
+.custom-select:-moz-focusring {
+    color: transparent;
+    text-shadow: 0 0 0 #000;
+}
+
+
+/*estilo para boton eliminar citas*/
+
+.btn-eliminar {
+   /* display: flex;*/
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espaciado entre ícono y texto */
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 3px 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-eliminar:hover {
+    background-color: #e60000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* estilo para titulo crear citas */
+
+.titulo-citas {
+    font-size: 24px; /* Tamaño del texto */
+    font-weight: bold; /* Grosor del texto */
+    color: #ffffff; /* Color del texto */
+    background-color: #4bc9ff; /* Fondo del cuadro */
+    border: 2px solid #0077b6; /* Borde del cuadro */
+    padding: 5px 10px; /* Espaciado interno */
+    border-radius: 12px; /* Esquinas redondeadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra del cuadro */
+    text-align: center; /* Centrado del texto */
+    display: inline-block; /* Ajustar el tamaño al contenido */
+    margin: 10px auto; /* Espaciado externo */
+    margin-bottom: -30px; /* Reducir el espaciado hacia abajo */
+}
+
+/* estilo para div titulo de citas */
+.div_titilo_citas{
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+    height: 100%; /* Asegura que el contenido se alinee dentro del div */
+}
+
+
+
+
+
+
+</style>
+<body>
+    <div class="container1">
+        <!-- navegador -->
+        <div class="divnavbar">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-clinic-medical"></i> Mi Clínica
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="#about"><i class="fas fa-info-circle"></i> Acerca de</a></li>
+                    <li><a href="#services"><i class="fas fa-briefcase"></i> Servicios</a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> Contacto</a></li>
+                    <!-- Enlace con ícono para cerrar sesión -->
+                    <li><a href="#logout"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                </ul>
+                <div class="burger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </nav>
+
+
+        </div>
+
+        <!-- navegador_final -->
+
+        
+        <!-- menu_lateral-->
+        <div class="sidebar">
+            <div class="user-info">
+
+                <img src="C:\Users\Hnas_Perez_Ramos\Desktop\html\Proyecto_citas_medicas\logo2.png" alt="Foto de Usuario" class="user-avatar">
+                <p class="user-name" id="nombreUsuario">Juan Pérez</p>
+                <p class="user-role">Usuario</p>
+                <i class="fas fa-male"></i> <!-- Cambia esto por <i class="fas fa-female"></i> para mujer -->
+            </div>
+            <ul class="sidebar-links">
+                <li><a href="#profile">Mi Perfil</a></li>
+                <li><a href="#appointments">Mis Citas</a></li>
+                <li><a href="#settings">Configuración</a></li>
+            </ul>
+        </div>
+        <div class="legend">
+            <div class="legend-item">
+                <div class="circle red"></div>
+                <span>Sin citas</span>
+            </div>
+            <div class="legend-item">
+                <div class="circle blue"></div>
+                <span>Con citas</span>
+            </div>
+            <div class="legend-item">
+                <div class="circle white"></div>
+                <span>Sin Programacion</span>
+            </div>
+        </div>>
+       
+    </div>  
+    
+   
+
+     
+     <!-- Menu_lateral_final-->
+
+    
+
+
+    <!-- botones para ir a otras paginas
+    <div>
+        <button class="regresarButton" onclick="window.location.href = '02_Login.html';">
+            Regresar a Inicio
+        </button>  
+
+        <button class="regresarcraercitas" onclick="window.location.href = '03_Crearcitas.html';">
+            Regresar a citas
+        </button> 
+    </div> -->
+        
+        <!-- tabla calendario-->
+
+    <div class="main-content">  
+            <div  id="cal"class="calendarios">
+
+                <div class="header"> 
+                    <span class="left button" id="prev"> &lang; </span> 
+                    <span class="left hook"></span> 
+                    <span class="month-year" id="label"> Diciembre 2024 </span> 
+                    <span class="right hook"></span> 
+                    <span class="right button" id="next"> &rang; </span>
+              
+                </div>
+                <div>
+                    <table>  
+                        <thead id="">
+                        
+                                <tr>
+                                    <th>Dom</th>
+                                    <th>Lun</th>
+                                    <th>Mar</th>
+                                    <th>Mier</th>
+                                    <th>Jue</th>
+                                    <th>Vie</th>
+                                    <th>sab</th>
+                                </tr>
+                            
+                        </thead>
+                        <tbody id="calendario">
+
+                        </tbody>
+                        
+                    </table>          
+
+                </div>
+              
+                
+
+            </div> 
+
+
+             <!-- tabla crear citas-->
+
+           <div>
+            <div class="div_titilo_citas">
+                <p  class="titulo-citas">✏️ Crear citas</p>
+            </div>
+               
+            
+               <div>
+                    <table class="tabla-citas" id="tablacitas">
+                       <thead>   
+                            <tr>
+                                <th>id</th>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Duracion</th>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Medico</th>
+                                <th>T.examen</th>
+                                <th>Estado</th>
+                                <th>Accion</th>
+                            </tr>
+                        </thead>         
+                    <tr>    
+                        <td  class="celdascrearcitas" id="">
+                            <input class="input" type="text" id="Id" placeholder="Ingrese N° identificacion">
+                        </td>
+                        <td  class="celdascrearcitas">
+                            <input class="input" type="date" id="Fecha" name="fecha">
+                        </td>
+                        <td>
+                            <input class="input" type="time" id="Hora" name="horas"></input>
+                        </td>
+                        <td>
+                            <input class="input" type="number" id="Duracion" name="Duracion" min="5" max="60" step="5" placeholder="Ej. 30" required></input>
+                        </td>
+                        <td>
+                            <input class="input" type="text" id="Nombre" placeholder="ingrese nombre">
+                        </td>
+            
+                        <td>
+                            <input class="input" type="text" id="Apellido" placeholder="ingrese apellido">
+                        </td>
+            
+                        <td>
+                            <select class="custom-select" id="Medico" name="Medicos" >
+                                <option value="Medico_1">Medico_1</option>
+                                <option value="Medico_2">Medico_2</option>
+                                
+                            </select>
+                        </td>
+            
+                        <td>
+                            <select class="custom-select" id="Examen" name="Examen" >
+                                <option value="Abdomem">E.Abdomen</option>
+                                <option value="Vias_urinarias">E.vias urinarias</option>
+                                <option value="Tejidos_blandos">E.Tejidos blandos</option>
+                                
+                            </select>
+                        </td>
+            
+                        <td>
+                            <select class="custom-select" id="Estado" name="opciones" >
+                                <option value="Disponible">Disponible</option>
+                                <option value="Seleccionada">Seleccionada</option>
+                                
+                            </select>
+                        </td>
+                            
+                        <td>
+                            <button class="boton-seleccionar" onclick="guardarFila()">💾 Guardar</button>
+                        </td>
+                    </tr>
+                       
+                    </table>
+               </div>
+
+
+
+           </div>
+
+
+            <div class="div_titilo_citas">
+            <p  class="titulo-citas">📋 Citas Creadas</p>
+            </div>
+           
+            <!-- tabla calendario final-->
+
+
+                <!-- tabla citas-->
+            <div clas="divtablacitas">
+                <table  class="tabla-citas" >
+                    <thead> 
+                        <tr>
+                            <th>id</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Medico</th>
+                            <th>Examen</th>
+                            <th>Estado</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead> 
+                    <tbody id="citascreadas">
+
+                    </tbody>    
+
+                </table>
+            </div>
+                <!-- tabla citas final-->
+
+            <div class="divmensaje">
+                <p id="Nohaycitas"></p>
+            </div>
+            
+   
+    </div>        
+    
+</body>
+<script>
+
+
+const fechaActual = new Date();
+const diaActual = fechaActual.getDate();
+console.log("hoy",diaActual);
+let year = 2024;
+let month = fechaActual.getMonth() + 1;// Inicialmente, el mes es diciembre
+let mesActual=month;
+let valorCeldaGlobal = "";
+
+// Actualizar al cargar la página y al redimensionar el sidebar barra lateral que cambia de posicion
+const mensajeDiv = document.querySelector('.divmensaje');       
+
+document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.querySelector('.navbar');
+            const sidebar = document.querySelector('.sidebar');
+
+            function updateSidebarTop() {
+                const navbarHeight = navbar.offsetHeight; // Altura dinámica de la barra de navegación
+                sidebar.style.top = `${navbarHeight}px`; // Asigna el valor dinámico
+            }
+
+    // Actualizar al cargar la página y al redimensionar
+    updateSidebarTop();
+    window.addEventListener('resize', updateSidebarTop);
+    // fianal
+});
+
+    // esto es del navegador//
+    const burger = document.querySelector('.burger');
+        const navLinks = document.querySelector('.nav-links');
+        const navItems = document.querySelectorAll('.nav-links a');
+
+        burger.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-active');
+        });
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navItems.forEach(link => link.classList.remove('active')); // Elimina la clase 'active' de todas las pestañas
+                item.classList.add('active'); // Añade la clase 'active' a la pestaña clicada
+            });
+        });;
+
+    //final 
+
+
+    let citascreadas;
+    let username;
+    let password;
+    let identificacionglobal;
+    let nombreglobal;
+    let datosCitas ;
+    let contadorGolbalcontrol=0;
+
+
+
+
+    const loggedUser = localStorage.getItem("loggedUser");
+        console.log("pruebatraslado",loggedUser)
+
+        if (loggedUser) {
+            // Convertir el JSON a objeto
+            const user = JSON.parse(loggedUser);
+
+            // Cargar los datos del usuario en variables
+            username = user.username;
+            password = user.password;
+            identificacionglobal=user.identificacionglobal;
+            nombreglobal=user.nombreglobal;
+
+            // Usar los datos del usuario como necesites
+            //console.log("Usuario:", username);
+            //console.log("Contraseña:", password);
+
+            // Puedes mostrar el nombre de usuario en la página, por ejemplo:
+            //document.getElementById("welcomeMessage").textContent = `Bienvenido, ${username}!`;
+        } else {
+            // Si no hay usuario en localStorage, redirigir a la página de login
+            window.location.href = "login.html";
+        }
+
+    //window.addEventListener('load', function() {
+        // Recuperar el usuario desde localStorage
+        citascreadas = localStorage.getItem("citascreadas");
+        //console.log("probando_recibir1",citascreadas);
+        //console.log("probando_recibir",citascreadas);
+
+        if (citascreadas) {
+            // Convertir el JSON a objeto
+            datosCitas = JSON.parse(citascreadas);
+            //console.log("probando_recibir1",datosCitas);
+           
+
+            // Cargar los datos del usuario en variables
+            //username = user.username;
+            //password = user.password;
+            //identificacionglobal=user.identificacionglobal;
+            //nombreglobal=user.nombreglobal;
+
+            // Usar los datos del usuario como necesites
+            //console.log("Usuario:", username);
+            //console.log("Contraseña:", password);
+
+            // Puedes mostrar el nombre de usuario en la página, por ejemplo:
+            //document.getElementById("welcomeMessage").textContent = `Bienvenido, ${username}!`;
+        } else {
+            // Si no hay usuario en localStorage, redirigir a la página de login
+            //window.location.href = "login.html";
+            console.log(" no hay citas");
+        }
+  
+
+    //actualizarColoresCalendario();    
+
+function actualizarColoresCalendario(celdaActual) {
+    const celdasTabla = document.querySelectorAll('#calendario td');
+    console.log("celda actual",celdaActual)
+    
+    const celdaActual2=celdaActual.toString();
+    //console.log("consultar colores", celdaActual2);
+   
+    
+    celdasTabla.forEach(celda => {
+        const dia = celda.textContent.trim();
+        if(dia===celdaActual2){
+            
+        }
+        
+        
+        if(dia===celdaActual2 && month===mesActual){
+            //console.log("celda_actual", celdaActual2,"dia",dia);
+            celda.style.backgroundColor = "lime";//gris elegante "#cdd4d9";
+            celda.style.boxShadow = "inset -2px -2px 5px #c4c4c4, inset 2px 2px 5px #ffffff";
+            celda.style.transform = "translateY(-1px)";
+            return;}
+        if (!dia){
+            //console.log("vacio")
+         return;} // Ignorar celdas vacías
+
+        const fecha = `${year}-${String(month).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+
+        if(month===mesActual){
+            const citasDelDia = datosCitas.filter(cita => cita.fecha === fecha && dia >= diaActual);//borrar esto para que se vean los colores  en todas la celdas
+
+            if (citasDelDia.length === 0) {
+                //console.log("no ha citas para esta fecha")
+                // No hay citas en esta fecha
+                //celda.style.backgroundColor = "white"; // Sin color para fechas sin citas
+            } else if (citasDelDia.every(cita => cita.estado === "Seleccionada")) {
+                celda.style.backgroundColor = "#cdd4d9"; // "#cdd4d9"Gris si todas las citas están seleccionadas
+                //console.log("Todas las citas están seleccionadas en:", fecha);
+                celda.style.boxShadow = "inset -2px -2px 5px #c4c4c4, inset 2px 2px 5px #ffffff";
+                celda.style.transform = "translateY(-1px)";
+            } else if (citasDelDia.some(cita => cita.estado === "Disponible")) {
+                
+                celda.style.backgroundColor = "#4bc9ff"; // Azul si hay citas disponibles
+                celda.style.boxShadow = "inset -2px -2px 5px #d4d4d4, inset 2px 2px 5px #ffffff";
+                celda.style.transform = "translateY(-1px)";
+            } else {
+                //celda.style.backgroundColor = ""; // Sin color si no hay citas
+            }
+        }//llave de if(month=mesActual){
+        else{
+
+            
+
+             const citasDelDia = datosCitas.filter(cita => cita.fecha === fecha );
+
+            if (citasDelDia.length === 0) {
+                //console.log("no ha citas para esta fecha")
+                // No hay citas en esta fecha
+                //celda.style.backgroundColor = "white"; // Sin color para fechas sin citas
+            } else if (citasDelDia.every(cita => cita.estado === "Seleccionada" && dia !== celdaActual2 )) {
+                celda.style.backgroundColor = "#cdd4d9"; // "#cdd4d9"Gris si todas las citas están seleccionadas
+                //console.log("Todas las citas están seleccionadas en:", fecha);
+                celda.style.boxShadow = "inset -2px -2px 5px #c4c4c4, inset 2px 2px 5px #ffffff";
+                celda.style.transform = "translateY(-1px)";
+            } else if (citasDelDia.some(cita => cita.estado === "Disponible"&& dia !== celdaActual2)) {
+                
+                celda.style.backgroundColor = "#4bc9ff"; // Azul si hay citas disponibles
+                celda.style.boxShadow = "inset -2px -2px 5px #d4d4d4, inset 2px 2px 5px #ffffff";
+                celda.style.transform = "translateY(-1px)";
+            } else {
+                //celda.style.backgroundColor = ""; // Sin color si no hay citas
+            }
+
+
+
+      }
+    });
+    
+    }
+
+
+
+
+
+const resultado = document.getElementById('calendario');
+const label = document.getElementById('label'); // Elemento para mostrar el mes y año
+
+
+// Función para actualizar el calendario
+function actualizarCalendario() {
+    // Limpiar el calendario actual
+    resultado.innerHTML = '';
+
+    // Mostrar el mes y el año en el encabezado
+    const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    label.textContent = `${meses[month - 1]} ${year}`;
+
+    // Crear el primer día del mes
+    const primerDiaDelMes = new Date(year, month - 1, 1);
+    const diaSemana = primerDiaDelMes.getDay(); // Día de la semana del 1° día del mes
+    const ultimoDiaDelMes = new Date(year, month, 0).getDate(); // Último día del mes
+
+    // Calcular el número de filas necesarias
+    let diaContador = 1;
+    const filasNecesarias = Math.ceil((diaSemana + ultimoDiaDelMes) / 7); // Número de filas según el número de días
+
+    // Crear las filas para el calendario
+    for (let i = 0; i < filasNecesarias; i++) {
+        const fila = document.createElement("tr");
+        for (let j = 0; j < 7; j++) {
+            const celda = document.createElement("td");
+
+            if (i === 0 && j < diaSemana) {
+                // Espacios vacíos antes del primer día del mes
+                celda.textContent = '';
+            } else if (diaContador <= ultimoDiaDelMes) {
+                // Colocar los días del mes
+                celda.textContent = diaContador;
+
+                //instruccion para cambia de color las celdas inferiores a fecha actual
+
+                 if (diaContador < diaActual && month==mesActual) { // Cambia 10 por el número que desees
+                celda.style.color = "#dfdedc"}
+                else{
+                    celda.style.cursor = 'pointer';
+                };
+
+                celda.addEventListener("click", capturarClicCelda); // Agregar el evento para cada celda
+                diaContador++;
+            }
+            fila.appendChild(celda);
+        }
+        resultado.appendChild(fila);
+    }
+
+    //console.log("actualizar calendario",diaActual)
+    actualizarColoresCalendario(diaActual);
+}
+        
+    
+
+
+function capturarClicCelda(eventOrDay) {
+    let contenido;
+
+    // Verificar si es un evento o un número (día específico)
+    if (eventOrDay instanceof Event) {
+        // Si es un evento (clic), obtenemos el contenido del clic
+        contenido = eventOrDay.target.innerText;
+        valorCeldaGlobal=contenido;
+
+        //console.log("aqui1")
+    } else {
+        // Si es un número, lo usamos directamente como el día
+        contenido = eventOrDay;
+       // console.log("aqui2")
+    }
+
+    // Asegurarse de que 'contenido' no esté vacío o inválido
+    if (!contenido) return;
+
+    //console.log("Día seleccionado:", contenido);
+
+    const celdas = document.querySelectorAll("td");  // Selecciona todas las celdas de la tabla
+    //console.log("celdastodas",celdas)
+    celdas.forEach(function(celda) {
+        celda.style.backgroundColor = ""; 
+        celda.style.boxShadow = ""; // Elimina el color de fondo de todas las celdas
+    });
+
+    limpiarCitasCreadas(); // Llamada para limpiar las citas creadas, si es necesario
+
+    // Si se pasó un número (día específico), buscamos la celda correspondiente
+    if (typeof contenido === 'number') {
+        const celda = Array.from(celdas).find(c => parseInt(c.innerText) === contenido && month==mesActual);
+        //console.log("datos",celda)
+        if (celda) {
+            celda.style.backgroundColor = "";
+            // Aplicamos los estilos a la celda correspondiente al número
+            celda.style.backgroundColor = "lime";//gris elegante "#cdd4d9";
+            celda.style.boxShadow = "inset -2px -2px 5px #c4c4c4, inset 2px 2px 5px #ffffff";
+           
+            celda.style.transform = "translateY(-1px)";
+            //console.log("aqui3")
+        } else {
+
+            console.log(`No se encontró la celda con el día ${contenido}`);
+        }
+    } else {
+        // Si es un clic (evento), aplicamos los estilos al elemento clickeado
+        eventOrDay.target.style.backgroundColor = "lime";
+        eventOrDay.target.style.boxShadow = "inset -2px -2px 5px #c4c4c4, inset 2px 2px 5px #ffffff";
+        eventOrDay.target.style.transform = "translateY(-1px)";
+        //console.log("aqui4")
+
+    }
+
+    // Crear la fecha con el formato adecuado (Año-Mes-Día)
+    const date = `${year}-${String(month).padStart(2, '0')}-${String(contenido).padStart(2, '0')}`;
+    document.getElementById('Fecha').value = date;//instruccion para cargar la fecha en el inpu fecha
+    // Aquí puedes manejar el proceso de mostrar usuarios o actualizar el calendario
+    //mostrarUsuariosconclick(date);
+    mostrarconclick(date);
+    //console.log("capturar click",contenido);
+    actualizarColoresCalendario(contenido); 
+    
+}
+
+/*function mostrarUsuariosconclick(date) {
+
+
+    //console.log("probando", identificacionglobal);
+    //console.log("probandofecha", date);
+
+    // Crear un nuevo array que incluya tanto los datos como el índice original
+    const citasConIndices = datosCitas
+        .map((cita, index) => ({ ...cita, index }))
+        .filter(cita => cita.fecha === date && cita.estado === "Disponible");
+
+    if (citasConIndices.length === 0) {
+       // console.log("Cita no encontrada", datosCitas);
+       document.getElementById('Nohaycitas').textContent="¡ No hay citas disponible para este dia !"
+       mensajeDiv.style.display = 'block'; // Muestra el cuadro
+    } 
+    else {
+        mensajeDiv.style.display = 'none';
+        document.getElementById('Nohaycitas').textContent="";
+        const resultado2 = document.getElementById('citasusuarios');
+        resultado2.innerHTML = ""; // Limpiar tabla anterior
+        
+        citasConIndices.forEach(function(cita) {
+            const diaExtraido = cita.fecha.split('-')[2];
+            console.log("probandoindex", diaExtraido,diaActual);
+            if(diaExtraido>=diaActual){//instruccion para desactivar el cargue de citas en fechas anteriores a la actual
+            const fila = document.createElement("tr");
+
+            const celdaid = document.createElement("td");
+            //celdaid.textContent = cita.id;
+            celdaid.textContent = identificacionglobal;
+            fila.appendChild(celdaid);
+
+            const celdafecha = document.createElement("td");
+            celdafecha.textContent = cita.fecha;
+            fila.appendChild(celdafecha);
+
+            const celdahora = document.createElement("td");
+            celdahora.textContent = cita.hora;
+            fila.appendChild(celdahora);
+
+            const celdanombre = document.createElement("td");
+            celdanombre.textContent = cita.nombre;
+            fila.appendChild(celdanombre);
+
+            const celdapellido = document.createElement("td");
+            celdapellido.textContent = cita.apellido;
+            fila.appendChild(celdapellido);
+
+            const celdaestado = document.createElement("td");
+            celdaestado.textContent = cita.estado;
+            fila.appendChild(celdaestado);
+
+            const celdaccion = document.createElement("td");
+            const boton = document.createElement("button");
+            boton.textContent = "seleccionar";
+            boton.className = "boton-seleccionar"; // Asigna una clase
+            boton.onclick = () =>
+                seleccionarcita(cita.index, date, celdanombre, fila, boton, cita.estado);
+            celdaccion.appendChild(boton);
+            fila.appendChild(celdaccion);
+
+            resultado2.appendChild(fila);
+            }//hace parte para desactivar cargar citas en dias precios al dia actual
+            else{ 
+                //hace parte para desactivar cargar citas en dias precios al dia actual
+                console.log("aqui..aqui")
+                
+                document.getElementById('Nohaycitas').textContent="¡ No hay citas disponible para este dia !"    
+                mensajeDiv.style.display = 'block'; // Muestra el cuadro  
+            };//hace parte para desactivar cargar citas en dias precios al dia actual
+
+        });
+    
+    }
+}*/
+
+
+function mostrarconclick(date){
+            
+            // Buscar en el array de citas
+            //console.log("probando",datosCitas);
+            document.getElementById('citascreadas').innerHTML = "";
+            //console.log("probandomostrarclicik",datosCitas);
+            const citaEncontrada = datosCitas.filter(cita => cita.fecha === date);
+            //console.log("citasencotradas",citaEncontrada);    
+            if (citaEncontrada.length > 0) {
+                        // Si se encuentra la cita, mostrar los datos (o realizar otra acción)
+                        //console.log(citaEncontrada); // Puedes reemplazar esto con tu lógica para mostrar los datos en la interfaz
+                        const resultado1 = document.getElementById('citascreadas');
+                
+
+                citaEncontrada.forEach(function(cita,index) {
+                    const fila = document.createElement("tr");
+
+                    const celdaid = document.createElement("td");
+                    celdaid.textContent = cita.id;
+                    fila.appendChild(celdaid);
+
+                    const celdafecha = document.createElement("td");
+                    celdafecha.textContent = cita.fecha;
+                    fila.appendChild(celdafecha);
+
+                    const celdahora = document.createElement("td");
+                    celdahora.textContent = cita.hora;
+                    fila.appendChild(celdahora);
+
+                    const celdanombre = document.createElement("td");
+                    celdanombre.textContent = cita.nombre;
+                    const nombre1=cita.nombre;
+                    fila.appendChild(celdanombre);
+
+                    const celdapellido = document.createElement("td");
+                    celdapellido.textContent = cita.apellido;
+                    fila.appendChild(celdapellido);
+
+                    const celdamedico = document.createElement("td");
+                    //celdanombre.textContent = cita.nombre;
+                    fila.appendChild(celdamedico);
+
+                    const celdaexamen = document.createElement("td");
+                    //celdanombre.textContent = cita.nombre;
+                    fila.appendChild(celdaexamen);
+
+                    const celdaestado= document.createElement("td");
+                    celdaestado.textContent = cita.estado;
+                    fila.appendChild(celdaestado);
+
+                    const celdaccion = document.createElement("td");
+                    const boton = document.createElement("button");
+                    boton.textContent = "🗑️ Eliminar";
+                    boton.className = "btn-eliminar";
+                    boton.onclick = () => eliminarcitas(index,date,nombre1);
+                    celdaccion.appendChild(boton);
+                    
+                    fila.appendChild(celdaccion);
+
+                    resultado1.appendChild(fila);
+                });
+                    mensajeDiv.style.display = 'none';
+                    document.getElementById('Nohaycitas').textContent="";
+            
+            } else {
+                document.getElementById('citascreadas').innerHTML = "";
+                document.getElementById('Nohaycitas').textContent="¡ No hay citas disponible para este dia !"
+                 mensajeDiv.style.display = 'block'; // Muestra el cuadro
+            }
+            
+         //actualizarColoresCalendario();
+        }
+
+
+
+function limpiarCitasCreadas() {
+            //const resultado = document.getElementById('citascreadas');
+            //const resultado2 = document.getElementById('citasusuarios');
+            //console.log("Datos de citas:", resultado.firstElementChild);
+           
+
+            
+                 
+            //document.getElementById('citascreadas').innerHTML = "";
+            document.getElementById('citascreadas').innerHTML = "";
+            //const tablaCitasCreadas = document.getElementById('citascreadas');
+            //while (tablaCitasCreadas.firstChild) {
+            //tablaCitasCreadas.removeChild(tablaCitasCreadas.firstChild);
+        }
+        
+function seleccionarcita(index, date,celdanombre, fila, boton,celdaestado) {
+        // Cambiar el estado de la cita a "Seleccionada"
+        
+        //console.log("entrada",boton);
+        //console.log("entradadatos",index,date,celdanombre,fila,boton,celdaestado);
+        //datosCitas[index].estado = "Seleccionada";
+        if (datosCitas[index].fecha === date && datosCitas[index].estado === "Disponible") {
+        // Cambiar el estado a "Seleccionada"
+        datosCitas[index].estado = "Seleccionada";
+        datosCitas[index].id = identificacionglobal;
+        //datosCitas[index].nombre = nombreglobal;
+    }
+        //console.log("Cita actualizada:", datosCitas[index]);
+        
+        
+
+
+        // Actualizar visualmente el botón y la fila
+
+        //boton.textContent = "Cancelar";
+        //boton.onclick = () => cancelarCita(index, date, fila, boton);
+
+        // Eliminar la fila de la tabla de citas disponibles
+        fila.remove();
+        localStorage.setItem("citascreadas", JSON.stringify(datosCitas));
+        //console.log("probando_salidaguardar",datosCitas);
+
+        //console.log("Estado actualizado:", datosCitas);
+    }   
+
+
+// guardar citas    
+function guardarFila() {
+
+
+            limpiarCitasCreadas();
+            const id = document.getElementById(`Id`).value;
+            const fecha = document.getElementById(`Fecha`).value;
+            const hora = document.getElementById(`Hora`).value;
+            const nombre = document.getElementById(`Nombre`).value;
+            const apellido = document.getElementById(`Apellido`).value;
+            const Medico = document.getElementById(`Medico`).value;
+            const Examen = document.getElementById(`Examen`).value;
+            const estado = document.getElementById(`Estado`).value;
+            //console.log(fecha);
+        // Crear el objeto con los datos de la fila
+        const cita = {
+            id: id,
+            fecha: fecha,
+            hora: hora,
+            nombre: nombre,
+            apellido: apellido,
+            estado: estado
+        }
+        //console.log("datosAntes",datosCitas);
+      
+
+
+        // algoritmo para comprobar solapamiento de citas
+        let contadorlocalguardar=0;
+        let[horainstantanea,minutosinstantaneos]=hora.split(':').map(Number);
+        let totalMinutosinstantaneos = (horainstantanea * 60) + minutosinstantaneos;
+        //console.log("minutosinstantaneos",totalMinutosinstantaneos);
+
+        let FiltroCitas = datosCitas.filter(p => p.fecha === fecha);
+        //console.log("filtrocitas1",FiltroCitas);
+        if(FiltroCitas.length===0){
+           // datosCitas.push(cita); redundacia corregir
+            //console.log("entre aqui 1",contadorlocalguardar);
+
+        }else{
+           
+                //console.log("entre aqui 2");
+                for (let i = 0; i < FiltroCitas.length; i++) {
+                    let Hora_minutos= FiltroCitas[i].hora
+                    let [horas, minutos] = Hora_minutos.split(':').map(Number); // Convertir de string a números
+
+                    // Convertir la hora y los minutos a minutos totales
+                    let totalMinutos = (horas * 60) + minutos;//cita actual convertida a minutos
+                    //console.log("filtro",totalMinutos);
+                    let totalMinutos1=totalMinutos;
+                    let totalMinutos2=totalMinutos;
+                    
+
+                    
+                    for(let i=0;i <19;i++) {
+                    //totalMinutosinstantanos1++;
+                            if(totalMinutosinstantaneos===totalMinutos1 || totalMinutosinstantaneos===totalMinutos2){
+                                console.log("Existe una cita en la fecha asignada")                       
+                                contadorlocalguardar=1;
+                                break;
+                            }
+                            else{
+                                totalMinutos1++
+                                totalMinutos2--
+                            }
+                            
+                    } 
+                    
+                    
+                };
+            }    
+        //console.log("contador1",contadorlocalguardar)
+        if(contadorlocalguardar===0){
+            datosCitas.push(cita);
+            //console.log("entre aqui 3"); 
+            //console.log("guardado")
+            ;
+        }
+        else{
+            contadorlocalguardar=0;
+        }
+        //console.log("contador2",contadorlocalguardar)    
+               
+        //console.log("datosDespues",datosCitas);
+                   
+
+        mostrarconclick(fecha);
+        //mostrarUsuariosconclick(fecha);
+        actualizarColoresCalendario(valorCeldaGlobal); 
+        //console.log("probando grabado",datosCitas)
+        localStorage.setItem("citascreadas", JSON.stringify(datosCitas));
+        //console.log("probando_salidaguardar",datosCitas);
+        
+        
+    }    
+
+
+
+
+//funcion eliminar cita
+function eliminarcitas(index,date,nombre){
+            //console.log("verificarindex:", index);
+            //console.log("verificardate:", date);
+            //console.log("verificarnombre:", nombre);
+            //console.log("entrada",datosCitas);
+            const citaParaEliminar = datosCitas.find(cita => cita.nombre === nombre && cita.fecha === date);
+            //const citaParaEliminar = datosCitas.find(cita => cita.fecha === date);
+            if (citaParaEliminar) {
+            const citaIndex = datosCitas.indexOf(citaParaEliminar);
+            if (citaIndex !== -1) {
+            // Eliminar la cita en el índice encontrado
+            datosCitas.splice(citaIndex, 1);
+            //console.log("salida:", datosCitas);
+            //console.log("Array actualizado:", datosCitas);
+            localStorage.setItem("citascreadas", JSON.stringify(datosCitas));
+            mostrarconclick(date);
+            //mostrarUsuariosconclick(date);
+            actualizarColoresCalendario(); 
+            
+
+
+            
+        }
+    }
+}  
+  
+  
+    // Eventos para las flechas de navegación
+document.getElementById('prev').addEventListener('click', () => {
+    console.log("probando flecha prev");
+    const mesLabel = document.getElementById('label');
+    // Cambiar al mes anterior
+    
+    if (month!==mesActual){
+        if (month === 1) {
+            month = 12;
+            year--;
+        } else {
+            month--;
+        }
+    }
+        actualizarCalendario();
+        capturarClicCelda(diaActual);
+});
+
+document.getElementById('next').addEventListener('click', () => {
+    // Cambiar al siguiente mes
+    console.log("probando flecha next");
+    if (month === 12) {
+        month = 1;
+        year++;
+    } else {
+        month++;
+    }
+    actualizarCalendario();
+});
+
+
+//document.addEventListener('DOMContentLoaded', actualizarCalendario(diaActual));
+document.addEventListener('DOMContentLoaded', () => actualizarCalendario());
+
+
+
+//Instrucion para capturar el dia ctual y coloarlo en gris en el calendario//
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+       capturarClicCelda(diaActual); // Llama a tu función después del retraso
+       valorCeldaGlobal=diaActual;
+    }, 50); // Retraso en milisegundos (2000 ms = 2 segundos)
+});
+
+
+    
+
+</script>
+</html>
+

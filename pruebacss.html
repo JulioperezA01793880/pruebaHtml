@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    .content {
+        display: flex;
+        width: 380px;
+        padding: 40px 30px;
+        background: rgba(221, 225, 231, 1); /* Opacidad ajustada */
+        border-radius: 10px;
+        box-shadow: -3px -3px 7px #ffffff73, 2px 2px 5px rgba(94, 104, 121, 0.288);
+        opacity: 1; /* Ajusta la opacidad aquí */
+        transition: opacity 0.3s ease; 
+    
+    
+    
+ 
+    
+    }
+
+    .content:hover {
+        opacity: 1; }
+
+    .input {
+    height: 100%;
+    width: 100%;
+    padding-left: 45px;
+    outline: none;
+    border: none;
+    font-size: 18px;
+    background: #dde1e7;
+    color: #595959;
+    border-radius: 25px;
+    box-shadow: inset 2px 2px 5px #BABECC,
+                inset -5px -5px 10px #ffffff73;
+    }
+
+    .input:focus {
+     box-shadow: inset 1px 1px 2px #BABECC,
+              inset -1px -1px 2px #ffffff73;
+}
+.button {
+  margin: 15px 0;
+  width: 100%;
+  height: 50px;
+  font-size: 18px;
+  line-height: 50px;
+  font-weight: 600;
+  background: #dde1e7;
+  border-radius: 25px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #595959;
+  box-shadow: 2px 2px 5px #BABECC,
+             -5px -5px 10px #ffffff73;
+}
+
+.button:active {
+  color: #3498db;
+  box-shadow: inset 2px 2px 5px #BABECC,
+             inset -5px -5px 10px #ffffff73;
+}
+
+    </style>
+</head>
+<body>
+    <div class="content"  id="loginForm">
+        <input required="" type="text" class="input" id="username">
+        <button  class="button"></button>
+
+    </div>
+</body>
+</html>

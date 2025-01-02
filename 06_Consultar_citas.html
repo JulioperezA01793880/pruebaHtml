@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<style>
+    
+    * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        background: #e3e6e4;
+        }
+
+      /* barra navegadora*/
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #2c3e50, #34495e); /* Nuevo color */
+            color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+        top: 0;
+        width: 100%;
+        z-index: 10;
+        }
+
+        .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo i {
+            color: #ffcc00; /* Color dorado */
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li {
+            text-transform: uppercase;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 1em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.3s, background-color 0.3s;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .nav-links a:hover {
+            background-color: #f39c12; /* Color de fondo al pasar el ratón */
+        }
+
+        .nav-links a.active {
+            background-color: #f39c12; /* Color al estar activo */
+            color: white;
+        }
+
+        .burger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .burger div {
+            width: 25px;
+            height: 3px;
+            background-color: white;
+            transition: transform 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 10px;
+                background-color: #2c3e50;
+                position: absolute;
+                top: 60px;
+                right: 0;
+                padding: 20px;
+                border-radius: 8px;
+            }
+
+            .burger {
+                display: flex;
+            }
+        }
+ /* barra navegadora_final */
+
+
+     /* Barra lateral derecha */
+
+     .sidebar {
+        position: fixed;
+        top: 96px;
+        left: 0;
+        width: 200px;
+        height: calc(100% - 60px);
+        background-color: #34495e;
+        color: white;
+        padding: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
+        
+    }
+
+    .user-info {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .user-avatar {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        margin-bottom: 10px;
+    }
+
+    .user-name {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .user-role {
+        font-size: 0.9em;
+        margin-bottom: 10px;
+    }
+
+    .sidebar-links {
+        list-style: none;
+        padding: 0;
+    }
+
+    .sidebar-links li {
+        margin: 15px 0;
+    }
+
+    .sidebar-links a {
+        color: white;
+        text-decoration: none;
+        font-size: 1.1em;
+        transition: color 0.3s;
+    }
+
+    .sidebar-links a:hover {
+        color: #f39c12;
+    }
+  
+
+
+     /* Barra lateral derecha_final */    
+
+     .main-content {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        padding: 10px;
+        margin-left: 200px; /* Espacio para el sidebar */
+    }
+        
+        
+        
+
+
+
+   
+
+    /* tabla citas */
+    .tabla-citas {
+        width: 100%;
+        border-collapse: collapse;
+        font-family: Arial, sans-serif;
+        margin: 40px 0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        border-radius: 8px;
+    }
+
+    .tabla-citas thead {
+        background: linear-gradient(to right, #007bff, #28a745);
+        color: #ffffff;
+        text-transform: uppercase;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    .tabla-citas thead th {
+        padding: 12px;
+        text-align: center;
+        border-right: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .tabla-citas thead th:last-child {
+        border-right: none;
+    }
+
+    .tabla-citas tbody tr {
+        background: #f8f9fc;
+        border-bottom: 1px solid #e3e6f0;
+        transition: background 0.2s;
+    }
+
+    .tabla-citas tbody tr:hover {
+        background: #f1f3f6;
+    }
+
+    .tabla-citas tbody td {
+        padding: 10px;
+        text-align: center;
+        color: #5a5c69;
+        
+    }
+
+    .container1 {
+    position: relative; /* Contenedor para el sidebar */
+}
+
+/* estilo boton selecionar cita */
+.boton-seleccionar {
+    background-color: #1e7220; /* Color de fondo */
+    color: white;             /* Color del texto */
+    border: none;             /* Sin borde */
+    padding: 10px 20px;       /* Espaciado interno */
+    text-align: center;       /* Centrado del texto */
+    font-size: 16px;          /* Tamaño de fuente */
+    cursor: pointer;          /* Cambia el cursor al pasar el mouse */
+    border-radius: 5px;       /* Bordes redondeados */
+    transition: background-color 0.3s ease; /* Transición suave */
+}
+
+.boton-seleccionar:hover {
+    background-color: #65df6b; /* Color al pasar el mouse */
+}
+
+/* mensaje no hay citas*/
+.divmensaje {
+    display: none; /* Por defecto, ocultar */
+    background-color: #f9f9f9; /* Fondo claro */
+    color: #333;              /* Texto oscuro */
+    border: 2px solid #4CAF50; /* Borde verde */
+    border-radius: 10px;       /* Bordes redondeados */
+    padding: 20px;             /* Espaciado interno */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra */
+    font-family: 'Arial', sans-serif; /* Fuente moderna */
+    font-size: 18px;           /* Tamaño de texto */
+    max-width: 400px;          /* Ancho máximo */
+    margin: 20px auto;         /* Centrado horizontal */
+    text-align: center;        /* Texto centrado */
+    animation: aparecer 0.5s ease-out; /* Animación al aparecer */
+}
+
+.divmensaje:not(:empty) {
+    display: block; /* Mostrar solo cuando no esté vacío */
+
+
+}
+
+
+
+/* Estilo básico para el modal */
+/* Estilos generales del modal */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro semitransparente */
+  display: none; /* Ocultar el modal por defecto */
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Asegurarse de que el modal esté por encima de otros elementos */
+  transition: opacity 0.3s ease; /* Animación de opacidad */
+}
+
+.modal-contenido {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 30px;
+  width: 80%;
+  max-width: 500px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Sombra para darle profundidad */
+  transform: scale(0.9);
+  opacity: 0;
+  animation: modalAnimacion 0.5s forwards; /* Animación para mostrar el modal */
+}
+
+@keyframes modalAnimacion {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-titulo {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-family: 'Arial', sans-serif;
+}
+
+.modal-texto {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.cerrar-btn {
+  background-color: #FF6347; /* Rojo tomate */
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cerrar-btn:hover {
+  background-color: #e55347; /* Rojo más oscuro al pasar el ratón */
+}
+
+/* estilo para titulo crear citas */
+.titulo-citas {
+    font-size: 24px; /* Tamaño del texto */
+    font-weight: bold; /* Grosor del texto */
+    color: #ffffff; /* Color del texto */
+    background-color: #4bc9ff; /* Fondo del cuadro */
+    border: 2px solid #0077b6; /* Borde del cuadro */
+    padding: 5px 10px; /* Espaciado interno */
+    border-radius: 12px; /* Esquinas redondeadas */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra del cuadro */
+    text-align: center; /* Centrado del texto */
+    display: inline-block; /* Ajustar el tamaño al contenido */
+    margin: 10px auto; /* Espaciado externo */
+    margin-bottom: -30px; /* Reducir el espaciado hacia abajo */
+}
+
+/* estilo para div titulo de citas */
+.div_titulo_citas{
+    display: flex;
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+    height: 100%; /* Asegura que el contenido se alinee dentro del div */
+}
+
+
+/* estilos de los input consultar citas*/
+
+
+.input {
+
+    flex: 1;                      /* El input ocupa el espacio disponible */
+    max-width: 40px;             /* Ancho máximo para evitar que se estire demasiado */
+    min-width: 250px;
+    
+    padding: 8px;
+    font-family: 'Courier New', Courier, monospace;
+    outline: none;
+    background: #ffffff;
+    box-shadow: 5px 5px 17px #b6b6b6,
+                -5px -5px 17px #ffffff;
+    border: none;
+    border-radius: 10px;
+    transition: all .5s;
+    }
+
+    input:hover{
+    border-color: #4bc9ff;
+    background-color: #e9f5ff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .input:focus {
+    
+    box-shadow: inset 5px 5px 17px #c8c8c8,
+                inset -5px -5px 17px #ffffff;
+                outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    }
+
+
+    .botonConsultar {
+    left: 10px;
+    background-color: #ba2323;
+    padding: 4px;
+    position: relative;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 16px;
+    text-decoration: none;
+    color: #fff;
+    border: solid 1px #831212;
+    background-image: linear-gradient(bottom, rgb(171,27,27) 0%, rgb(212,51,51) 100%);
+    border-radius: 5px;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra normal del botón */
+    transition: box-shadow 0.1s ease-in-out, top 0.1s ease-in-out; /* Transiciones solo para sombra y desplazamiento */
+}
+
+.botonConsultar:active {
+    background-image: linear-gradient(bottom, rgb(171,27,27) 100%, rgb(212,51,51) 0%);
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.3); /* Efecto de hundimiento al hacer clic */
+    top: 2px; /* Pequeño desplazamiento para el efecto de hundimiento */
+}
+
+.botonConsultar::before {
+    background-color: #ccd0d5;
+    content: "";
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 8px;
+    left: -8px;
+    top: -8px;
+    z-index: -1; /* Asegura que el contenedor gris no se solape con el botón */
+    border-radius: 5px;
+    box-shadow: inset 0px 1px 1px #909193, 0px 1px 0px #fff;
+}
+
+    /* Boton Cancelar */
+
+.botonCancelar {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f44336; /* Rojo brillante */
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.botonCancelar:hover {
+    background-color: #e53935; /* Rojo oscuro en hover */
+    transform: translateY(-3px); /* Efecto de desplazamiento hacia arriba */
+}
+
+.botonCancelar:active {
+    background-color: #d32f2f; /* Rojo más oscuro al hacer clic */
+    transform: translateY(1px); /* Efecto de hundimiento */
+}
+
+.botonCancelar:focus {
+    outline: none; /* Elimina el contorno del enfoque */
+    box-shadow: 0 0 0 3px rgba(255, 87, 34, 0.5); /* Efecto de enfoque */
+}
+}
+
+
+
+
+</style>
+<body>
+    <div class="container1">
+        <!-- navegador -->
+        <div class="divnavbar">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-clinic-medical"></i> Mi Clínica
+                </div>
+                <ul class="nav-links">
+                    <li><a href="03_Crearcitas_.html" class="active"><i class="fas fa-home"></i> Inicio</a></li>
+                    <li><a href="05_seleccionar_citas.html"><i class="fas fa-briefcase"></i> Servicios</a></li>
+                    <li><a href="#Consultas"><i class="fas fa-search" style="color: white;"></i> Consultas</a></li>
+                    <li><a href="#contact"><i class="fas fa-envelope"></i> Contacto</a></li>
+                    <!-- Enlace con ícono para cerrar sesión -->
+                    <li><a href="02_Login.html"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+                </ul>
+                <div class="burger">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </nav>
+
+
+        </div>
+
+        <!-- navegador_final -->
+
+        
+        <!-- menu_lateral-->
+        <div class="sidebar">
+            <div class="user-info">
+
+                <img src="C:\Users\Hnas_Perez_Ramos\Desktop\html\Proyecto_citas_medicas\logo2.png" alt="Foto de Usuario" class="user-avatar">
+                <p class="user-name" id="nombreUsuario">Juan Pérez</p>
+                <p class="user-role">Usuario</p>
+                <i class="fas fa-male"></i> <!-- Cambia esto por <i class="fas fa-female"></i> para mujer -->
+            </div>
+            <ul class="sidebar-links">
+                <li><a href="#profile">Mi Perfil</a></li>
+                <li><a href="#appointments">Mis Citas</a></li>
+                <li><a href="#settings">Configuración</a></li>
+            </ul>
+        </div>
+        
+       
+    </div>  
+    
+   
+
+     
+     <!-- Menu_lateral_final-->
+
+    
+    <div  style="display: flex; justify-content: center; align-items: center;  border-bottom: 1px solid rgb(217, 213, 213); padding-top: 40px;">
+
+        <input class="input"     type="text" id="Nidentificacion" placeholder="Ingrese N° de identificacion" >
+        <button class="botonConsultar"  onclick=consultarcitas()>🔍Consultar</button>
+    </div>
+
+
+    <div class="div_titulo_citas">
+        <p  class="titulo-citas">📋 Citas activas</p>
+    </div>
+        
+     
+
+
+                <!-- tabla citas-->
+            <div clas="divtablacitas">
+                <table  class="tabla-citas" >
+                    <thead> 
+                        <tr>
+                            <th>id</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Estado</th>
+                            <th>Accion</th>
+                        </tr>
+                    </thead> 
+                    <tbody id="consultaCitas">
+
+                    </tbody>    
+
+                </table>
+            </div>
+                <!-- tabla citas final-->
+
+            <div class="divmensaje">
+                <p id="Nohaycitas"></p>
+            </div>
+             <!-- Contenedor Modal -->
+            <div id="miModal" class="modal" style="display: none;">
+                <div class="modal-contenido">
+                  
+                </div>
+            </div>
+
+            <div id="miModalrecomendacion" class="modal" style="display: none;">
+                <div class="modal-contenido">
+                  
+                </div>
+            </div>
+   
+    </div>        
+    
+</body>
+<script>
+
+
+const fechaActual = new Date();
+const diaActual = fechaActual.getDate();
+console.log("hoy",diaActual);
+let year = 2024;
+let month = fechaActual.getMonth() + 1;// Inicialmente, el mes es diciembre
+let mesActual=month;
+
+// Actualizar al cargar la página y al redimensionar el sidebar barra lateral que cambia de posicion
+const mensajeDiv = document.querySelector('.divmensaje');       
+
+document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.querySelector('.navbar');
+            const sidebar = document.querySelector('.sidebar');
+
+            function updateSidebarTop() {
+                const navbarHeight = navbar.offsetHeight; // Altura dinámica de la barra de navegación
+                sidebar.style.top = `${navbarHeight}px`; // Asigna el valor dinámico
+            }
+
+    // Actualizar al cargar la página y al redimensionar
+    updateSidebarTop();
+    window.addEventListener('resize', updateSidebarTop);
+    // fianal
+});
+
+    // esto es del navegador//
+    const burger = document.querySelector('.burger');
+        const navLinks = document.querySelector('.nav-links');
+        const navItems = document.querySelectorAll('.nav-links a');
+        
+        console.log("barra",navItems)
+        console.log("entre a seleccionar citas");
+
+       // burger.addEventListener('click', () => {  // ojo borre esto pertenece a la barra de navegacion
+            //navLinks.classList.toggle('nav-active');
+        //});
+
+       // navItems.forEach(item => {
+            //item.addEventListener('click', () => {
+               // navItems.forEach(link => link.classList.remove('active')); // Elimina la clase 'active' de todas las pestañas
+                //item.classList.add('active'); // Añade la clase 'active' a la pestaña clicada
+                //console.log("barra",item)
+            //});
+        //});;
+
+
+        navItems.forEach(item => {
+        const href = item.getAttribute('href'); // Obtiene el enlace
+        if (href === "#Consultas") {
+            // Resalta el enlace como activo
+            navItems.forEach(link => link.classList.remove('active')); // Quita 'active' de todos
+            item.classList.add('active'); // Agrega 'active' al enlace deseado
+        }
+    });
+            
+
+    //final 
+
+
+    let citascreadas;
+    let username;
+    let password;
+    let identificacionglobal;
+    let nombreglobal;
+    let datosCitas ;
+
+
+
+    const loggedUser = localStorage.getItem("loggedUser");
+       console.log("pruebatraslado",loggedUser)
+
+        if (loggedUser) {
+            // Convertir el JSON a objeto
+            const user = JSON.parse(loggedUser);
+
+            // Cargar los datos del usuario en variables
+            username = user.username;
+            password = user.password;
+            identificacionglobal=user.identificacionglobal;
+            nombreglobal=user.nombreglobal;
+
+            
+        } else {
+            // Si no hay usuario en localStorage, redirigir a la página de login
+            window.location.href = "login.html";
+        }
+
+    //window.addEventListener('load', function() {
+        // Recuperar el usuario desde localStorage
+        citascreadas = localStorage.getItem("citascreadas");
+        console.log("probando_recibir1",citascreadas);
+        //console.log("probando_recibir",citascreadas);
+
+        if (citascreadas) {
+            // Convertir el JSON a objeto
+            datosCitas = JSON.parse(citascreadas);
+          
+            console.log(" no hay citas");
+        }
+   
+
+  
+
+
+
+
+
+function consultarcitas(){
+        //console.log("todas_1",datosCitas);
+        document.getElementById('consultaCitas').innerText="";
+        const consultarid = document.getElementById(`Nidentificacion`).value;
+        //console.log("id",consultarid);
+        const citasConsultadas = datosCitas.map((cita, index) => ({ ...cita, index })).filter(cita => cita.id === consultarid && cita.estado === "Seleccionada");
+        //console.log("consultar",citasConsultadas);
+    if (citasConsultadas.length === 0) {
+        console.log("usted no tiene citas", datosCitas);
+    } else {
+        const resultado3 = document.getElementById('consultaCitas');
+        resultado3.innerHTML = ""; // Limpiar tabla anterior
+
+        citasConsultadas.forEach(function(cita) {
+            //console.log("probandoindex", cita);
+
+            const fila = document.createElement("tr");
+
+            const celdaid = document.createElement("td");
+            celdaid.textContent = cita.id;
+            fila.appendChild(celdaid);
+
+            const celdafecha = document.createElement("td");
+            celdafecha.textContent = cita.fecha;
+            fila.appendChild(celdafecha);
+
+            const celdahora = document.createElement("td");
+            celdahora.textContent = cita.hora;
+            fila.appendChild(celdahora);
+
+            const celdanombre = document.createElement("td");
+            celdanombre.textContent = cita.nombre;
+            fila.appendChild(celdanombre);
+
+            const celdapellido = document.createElement("td");
+            celdapellido.textContent = cita.apellido;
+            fila.appendChild(celdapellido);
+
+            const celdaestado = document.createElement("td");
+            celdaestado.textContent = cita.estado;
+            fila.appendChild(celdaestado);
+
+            const celdaccion = document.createElement("td");
+            const boton = document.createElement("button");
+            boton.textContent = "⚠️Cancelar";
+            boton.className="botonCancelar";
+            boton.onclick = () =>
+                mostrarModal(cita.index, celdanombre, fila, boton, cita.estado);
+            celdaccion.appendChild(boton);
+            fila.appendChild(celdaccion);
+
+            resultado3.appendChild(fila);
+        
+        });
+    }
+}
+
+function cancelarcita(index,celdanombre, fila, boton,celdaestado) {
+       
+       
+       datosCitas[index].estado = "Disponible";
+       datecancelar=datosCitas[index].fecha;
+       cerrarModal();
+   
+       
+       
+       
+  
+
+       
+       fila.remove();
+       const resultado3 = document.getElementById('consulta de citas');
+       //resultado3.innerHTML = ""; // Limpiar tabla anterior
+       //console.log("Cita actualizada:", datosCitas);
+       localStorage.setItem("citascreadas", JSON.stringify(datosCitas));
+       mostrarconclick();
+       mostrarUsuariosconclick(datecancelar);
+       
+   }
+
+
+function mostrarUsuariosconclick(date) {
+    //console.log("probando", identificacionglobal);
+    //console.log("probandofecha", date);
+
+    // Crear un nuevo array que incluya tanto los datos como el índice original
+    const citasConIndices = datosCitas
+        .map((cita, index) => ({ ...cita, index }))
+        .filter(cita => cita.fecha === date && cita.estado === "Disponible");
+
+    if (citasConIndices.length === 0) {
+       // console.log("Cita no encontrada", datosCitas);
+       document.getElementById('Nohaycitas').textContent="¡ No hay citas disponible para este dia hhh !"
+       mensajeDiv.style.display = 'block'; // Muestra el cuadro
+    } 
+    else {
+        mensajeDiv.style.display = 'none';
+        document.getElementById('Nohaycitas').textContent="";
+        const resultado2 = document.getElementById('citasusuarios');
+        resultado2.innerHTML = ""; // Limpiar tabla anterior
+        
+        citasConIndices.forEach(function(cita) {
+            const diaExtraido = cita.fecha.split('-')[2];
+            console.log("probandoindex", diaExtraido,diaActual);
+            if(diaExtraido>=diaActual && month === mesActual){//instruccion para desactivar el cargue de citas en fechas anteriores a la actual
+                console.log("entre aqui 1");
+            const fila = document.createElement("tr");
+
+            const celdaid = document.createElement("td");
+            //celdaid.textContent = cita.id;
+            celdaid.textContent = identificacionglobal;
+            fila.appendChild(celdaid);
+
+            const celdafecha = document.createElement("td");
+            celdafecha.textContent = cita.fecha;
+            fila.appendChild(celdafecha);
+
+            const celdahora = document.createElement("td");
+            celdahora.textContent = cita.hora;
+            fila.appendChild(celdahora);
+
+            const celdanombre = document.createElement("td");
+            celdanombre.textContent = cita.nombre;
+            fila.appendChild(celdanombre);
+
+            const celdapellido = document.createElement("td");
+            celdapellido.textContent = cita.apellido;
+            fila.appendChild(celdapellido);
+
+            const celdaestado = document.createElement("td");
+            celdaestado.textContent = cita.estado;
+            fila.appendChild(celdaestado);
+
+            const celdaccion = document.createElement("td");
+            const boton = document.createElement("button");
+            boton.textContent = "seleccionar";
+            boton.className = "boton-seleccionar"; // Asigna una clase
+            boton.onclick = () =>
+                seleccionarcita(cita.index, date, celdanombre, fila, boton, cita.estado);
+            celdaccion.appendChild(boton);
+            fila.appendChild(celdaccion);
+
+            resultado2.appendChild(fila);
+            return;}//hace parte para desactivar cargar citas en dias precios al dia actual
+
+            if(diaExtraido < diaActual && month === mesActual){//instruccion para desactivar el cargue de citas en fechas anteriores a la actual
+                    console.log("aqui..aqui")
+                    
+                    document.getElementById('Nohaycitas').textContent="¡ No hay citas disponible para este dia jj!"    
+                    mensajeDiv.style.display = 'block'; // Muestra el cuadro  
+            }//hace parte para desactivar cargar citas en dias precios al dia actual
+
+            
+            else{ 
+                console.log("entre aqui 2");
+                const fila = document.createElement("tr");
+
+                const celdaid = document.createElement("td");
+                //celdaid.textContent = cita.id;
+                celdaid.textContent = identificacionglobal;
+                fila.appendChild(celdaid);
+
+                const celdafecha = document.createElement("td");
+                celdafecha.textContent = cita.fecha;
+                fila.appendChild(celdafecha);
+
+                const celdahora = document.createElement("td");
+                celdahora.textContent = cita.hora;
+                fila.appendChild(celdahora);
+
+                const celdanombre = document.createElement("td");
+                celdanombre.textContent = cita.nombre;
+                fila.appendChild(celdanombre);
+
+                const celdapellido = document.createElement("td");
+                celdapellido.textContent = cita.apellido;
+                fila.appendChild(celdapellido);
+
+                const celdaestado = document.createElement("td");
+                celdaestado.textContent = cita.estado;
+                fila.appendChild(celdaestado);
+
+                const celdaccion = document.createElement("td");
+                const boton = document.createElement("button");
+                boton.textContent = "seleccionar";
+                boton.className = "boton-seleccionar"; // Asigna una clase
+                boton.onclick = () =>
+                    seleccionarcita(cita.index, date, celdanombre, fila, boton, cita.estado);
+                celdaccion.appendChild(boton);
+                fila.appendChild(celdaccion);
+
+                resultado2.appendChild(fila);
+                    //hace parte para desactivar cargar citas en dias precios al dia actual
+                   
+            };//hace parte para desactivar cargar citas en dias precios al dia actual
+
+        });
+    
+    }
+}
+
+// Función para mostrar el modal
+function mostrarModal(index, date,celdanombre, fila, boton,celdaestado) {
+    const modal = document.getElementById('miModal');
+      modal.style.display = 'flex'; // Cambiar display a 'flex' para mostrar el modal
+      const modalContent = modal.querySelector('.modal-contenido');
+
+      // Limpiar el contenido anterior (si hay)
+      modalContent.innerHTML = '';
+
+      // Crear los elementos individualmente
+      const titulo = document.createElement('h2');
+      titulo.className = 'modal-titulo';
+      titulo.textContent = '¡Bienvenido a mi Modal!';
+
+      const parrafo = document.createElement('p');
+      parrafo.id = 'textomodal';
+      parrafo.className = 'modal-texto';
+      parrafo.textContent = '¿Está seguro que desea cancelar su cita?';
+
+      const botonAceptar = document.createElement('button');
+      botonAceptar.className = 'cerrar-btn';
+      botonAceptar.textContent = 'Aceptar';
+      botonAceptar.onclick = () =>  cancelarcita(index, date,celdanombre, fila, boton,celdaestado);  // Asignamos la función al botón
+
+      const botonCerrar = document.createElement('button');
+      botonCerrar.className = 'cerrar-btn';
+      botonCerrar.textContent = 'Cerrar';
+      botonCerrar.onclick = () => 
+        cerrarModal()  // Asignamos la función al botón
+
+      // Agregar los elementos al contenedor modal
+      modalContent.appendChild(titulo);
+      modalContent.appendChild(parrafo);
+      modalContent.appendChild(botonAceptar);
+      modalContent.appendChild(botonCerrar);
+}
+
+// Función para cerrar el modal
+function cerrarModal() {
+  document.getElementById('miModal').style.display = 'none'; // Cambiar display a 'none' para ocultar el modal
+  document.getElementById('miModalrecomendacion').style.display = 'none';   
+}
+
+function limpiarCitasCreadas() {
+            //const resultado = document.getElementById('citascreadas');
+            //const resultado2 = document.getElementById('citasusuarios');
+            //console.log("Datos de citas:", resultado.firstElementChild);
+           
+
+            
+                 
+            //document.getElementById('citascreadas').innerHTML = "";
+            document.getElementById('citasusuarios').innerHTML = "";
+            //const tablaCitasCreadas = document.getElementById('citascreadas');
+            //while (tablaCitasCreadas.firstChild) {
+            //tablaCitasCreadas.removeChild(tablaCitasCreadas.firstChild);
+        }
+        
+function seleccionarcita(index, date,celdanombre, fila, boton,celdaestado) {
+        // Cambiar el estado de la cita a "Seleccionada"
+        mostrarModal(index, date,celdanombre, fila, boton,celdaestado);
+        //console.log("entrada",boton);
+        //console.log("entradadatos",index,date,celdanombre,fila,boton,celdaestado);
+        //datosCitas[index].estado = "Seleccionada";
+        
+            //mostrarModal();
+            //console.log("probando_salidaguardar",datosCitas);
+
+            //console.log("Estado actualizado:", datosCitas);
+        
+           
+        
+    }   
+
+function guardarseleccioncita(index, date,celdanombre, fila, boton,celdaestado){
+
+
+    if (datosCitas[index].fecha === date && datosCitas[index].estado === "Disponible") {
+            // Cambiar el estado a "Seleccionada"
+            datosCitas[index].estado = "Seleccionada";
+            datosCitas[index].id = identificacionglobal;
+            //datosCitas[index].nombre = nombreglobal;
+            }
+           console.log("entre a confirmar seleccion");
+        
+        
+
+
+            // Actualizar visualmente el botón y la fila
+
+            //boton.textContent = "Cancelar";
+            //boton.onclick = () => cancelarCita(index, date, fila, boton);
+
+            // Eliminar la fila de la tabla de citas disponibles
+            fila.remove();
+            localStorage.setItem("citascreadas", JSON.stringify(datosCitas));
+            document.getElementById('miModal').style.display = 'none'; // Cambiar display a 'none' para ocultar el modal
+            recomendacionFinal(index, date,celdanombre, fila, boton,celdaestado);
+    
+}
+
+function recomendacionFinal(index, date,celdanombre, fila, boton,celdaestado){
+
+    const modal = document.getElementById('miModalrecomendacion');
+      modal.style.display = 'flex'; // Cambiar display a 'flex' para mostrar el modal
+      const modalContent = modal.querySelector('.modal-contenido');
+
+      // Limpiar el contenido anterior (si hay)
+      modalContent.innerHTML = '';
+
+      // Crear los elementos individualmente
+      const titulo = document.createElement('h2');
+      titulo.className = 'modal-titulo';
+      titulo.textContent = '¡Bienvenido a mi Modal!';
+
+      const parrafo = document.createElement('p');
+      parrafo.id = 'textomodal';
+      parrafo.className = 'modal-texto';
+      parrafo.textContent = 'su cita fue programada para el :',date;
+
+      
+      const botonSalir = document.createElement('button');
+      botonSalir.className = 'cerrar-btn';
+      botonSalir.textContent = 'Salir';
+      botonSalir.onclick = () => 
+        cerrarModal()  // Asignamos la función al botón
+
+      // Agregar los elementos al contenedor modal
+      modalContent.appendChild(titulo);
+      modalContent.appendChild(parrafo);
+      modalContent.appendChild(botonSalir);
+      
+
+}
+
+
+  
+
+
+
+
+
+
+    
+
+</script>
+</html>

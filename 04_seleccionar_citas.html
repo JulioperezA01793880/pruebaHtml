@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+    <div>
+        <button class="regresarButton" onclick="window.location.href = '02_Login.html';">
+            Regresar a Inicio
+        </button>  
+
+        <button class="regresarcraercitas" onclick="window.location.href = '03_Crearcitas.html';">
+            Regresar a citas
+        </button> 
+    </div> 
+        </div>
+        <!-- tabla calendario-->
+       <div  id="calendarios" class="calendarios">
+        <P>Calendario</P>
+        <table id="calendario">
+           
+                <tr>
+                    <th>Domingo</th>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miercoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                    <th>sabado</th>
+                </tr>
+            
+        </table>
+       
+       </div> 
+
+       <div>
+        <table  >
+            <thead> 
+                <tr>
+                    <th>id</th>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Estado</th>
+                    <th>Accion</th>
+                </tr>
+            </thead> 
+            <tbody id="citasusuarios">
+
+            </tbody>    
+
+        </table>
+   </div>
+
+    
+</body>
+<script>
+
+    let citascreadas;
+    let username;
+    let password;
+    let identificacionglobal;
+    let nombreglobal;
+    let datosCitas ;
+
+    //window.addEventListener('load', function() {
+        // Recuperar el usuario desde localStorage
+        citascreadas = localStorage.getItem("citascreadas");
+        console.log("probando_recibir1",citascreadas);
+        //console.log("probando_recibir",citascreadas);
+
+        if (citascreadas) {
+            // Convertir el JSON a objeto
+            datosCitas = JSON.parse(citascreadas);
+            console.log("probando_recibir1",datosCitas);
+           
+
+            // Cargar los datos del usuario en variables
+            //username = user.username;
+            //password = user.password;
+            //identificacionglobal=user.identificacionglobal;
+            //nombreglobal=user.nombreglobal;
+
+            // Usar los datos del usuario como necesites
+            //console.log("Usuario:", username);
+            //console.log("Contraseña:", password);
+
+            // Puedes mostrar el nombre de usuario en la página, por ejemplo:
+            //document.getElementById("welcomeMessage").textContent = `Bienvenido, ${username}!`;
+        } else {
+            // Si no hay usuario en localStorage, redirigir a la página de login
+            //window.location.href = "login.html";
+            console.log(" no hay citas");
+        }
+   // });
+   //console.log("usuario",username,password,identificacionglobal,nombreglobal)    
+    
+
+    //const datosCitas = [];
+
+    let year=2024;
+    let month=12;
+    let day=12;
+
+
+
+
+    const resultado = document.getElementById('calendario');
+    const fechaActual = new Date();
+    const primerDiaDelMes = new Date(fechaActual.getFullYear(), fechaActual.getMonth(), 1);
+    const diaSemana = fechaActual.getDay();
+    const dia1mesactual = primerDiaDelMes.getDay();
+    const diaultimomesactual=new Date(fechaActual.getFullYear(), fechaActual.getMonth() + 1,0);
+    const ultimoDiames = diaultimomesactual.getDate();
+    const formatearfecha= fechaActual.toLocaleDateString() + " " + diaSemana
+    const compensaciondiasmes=ultimoDiames+dia1mesactual;
+    //document.getElementById('mostrar').textContent = dia1mesactual;
+
+    for( let i=0; i < compensaciondiasmes;i++){
+        const crearfilacelda=document.createElement("tr");
+        resultado.appendChild(crearfilacelda);
+
+        
+        for(let j=0; j < 7; j++){
+            i=i+1;
+            if(i>compensaciondiasmes){
+                break;
+            }
+            else if(i > dia1mesactual){
+                //k=k+1
+                const crearcelda=document.createElement("td");
+                crearcelda.textContent=((i-dia1mesactual));
+                resultado.appendChild(crearcelda);
+            }
+            else{
+                const crearcelda=document.createElement("td");
+                crearcelda.textContent=(" ") ;
+                resultado.appendChild(crearcelda);
+            }
+        }
+
+            i=i-1;
+    }
+
+
+
+    const tabla2 = document.getElementById("calendario");
+        // Seleccionamos todas las celdas de la tabla con id "tabla2"
+        const celdasTabla2 = tabla2.querySelectorAll("td");
+
+        // Añadimos el listener para cada celda de "tabla2"
+        celdasTabla2.forEach(function(celda) {
+            celda.addEventListener("click", capturarClicCelda);
+        });
+
+    actualizarColoresCalendario();    
+
+    function actualizarColoresCalendario() {
+        const celdasTabla = document.querySelectorAll('#calendario td');
+    console.log("consultar<-colores", datosCitas);
+    
+    celdasTabla.forEach(celda => {
+        const dia = celda.textContent.trim();
+        if (!dia) return; // Ignorar celdas vacías
+
+        const fecha = `${year}-${String(month).padStart(2, '0')}-${String(dia).padStart(2, '0')}`;
+        const citasDelDia = datosCitas.filter(cita => cita.fecha === fecha);
+
+        if (citasDelDia.length === 0) {
+            // No hay citas en esta fecha
+            //celda.style.backgroundColor = "white"; // Sin color para fechas sin citas
+        } else if (citasDelDia.every(cita => cita.estado === "Seleccionada")) {
+            celda.style.backgroundColor = "#cdd4d9"; // Gris si todas las citas están seleccionadas
+            console.log("Todas las citas están seleccionadas en:", fecha);
+        } else if (citasDelDia.some(cita => cita.estado === "Disponible")) {
+            celda.style.backgroundColor = "#4bc9ff"; // Azul si hay citas disponibles
+        } else {
+            //celda.style.backgroundColor = ""; // Sin color si no hay citas
+        }
+    });
+    }
+        
+    
+    function capturarClicCelda(event) {
+            // Accedemos al contenido de la celda clickeada
+            const contenido = event.target.innerText;
+            const celdas = document.querySelectorAll("td");  // Selecciona todas las celdas de la tabla
+            celdas.forEach(function(celda) {
+            celda.style.backgroundColor = ""; 
+            celda.style.boxShadow = "";// Elimina el color de fondo de todas las celdas
+            limpiarCitasCreadas();
+            
+            
+    });
+            event.target.style.backgroundColor = "gray";
+            event.target.style.boxShadow = "inset -2px -2px 5px #c4c4c4, inset 2px 2px 5px #ffffff";
+            event.target.style.transform = "translateY(2px)";
+            //alert("Has hecho clic en la celda con el contenido: " + contenido);
+            const date = `${year}-${String(month).padStart(2, '0')}-${String(contenido).padStart(2, '0')}`;
+            //document.getElementById('Fecha').value = date;
+            //mostrarconclick(date);
+            mostrarUsuariosconclick(date);
+            actualizarColoresCalendario(); 
+            
+            
+        }
+
+
+    function mostrarUsuariosconclick(date) {
+    //console.log("probando", identificacionglobal);
+    //console.log("probandofecha", date);
+
+    // Crear un nuevo array que incluya tanto los datos como el índice original
+    const citasConIndices = datosCitas
+        .map((cita, index) => ({ ...cita, index }))
+        .filter(cita => cita.fecha === date && cita.estado === "Disponible");
+
+    if (citasConIndices.length === 0) {
+       // console.log("Cita no encontrada", datosCitas);
+    } else {
+        const resultado2 = document.getElementById('citasusuarios');
+        resultado2.innerHTML = ""; // Limpiar tabla anterior
+
+        citasConIndices.forEach(function(cita) {
+            //console.log("probandoindex", cita);
+
+            const fila = document.createElement("tr");
+
+            const celdaid = document.createElement("td");
+            //celdaid.textContent = cita.id;
+            celdaid.textContent = identificacionglobal;
+            fila.appendChild(celdaid);
+
+            const celdafecha = document.createElement("td");
+            celdafecha.textContent = cita.fecha;
+            fila.appendChild(celdafecha);
+
+            const celdahora = document.createElement("td");
+            celdahora.textContent = cita.hora;
+            fila.appendChild(celdahora);
+
+            const celdanombre = document.createElement("td");
+            celdanombre.textContent = cita.nombre;
+            fila.appendChild(celdanombre);
+
+            const celdapellido = document.createElement("td");
+            celdapellido.textContent = cita.apellido;
+            fila.appendChild(celdapellido);
+
+            const celdaestado = document.createElement("td");
+            celdaestado.textContent = cita.estado;
+            fila.appendChild(celdaestado);
+
+            const celdaccion = document.createElement("td");
+            const boton = document.createElement("button");
+            boton.textContent = "seleccionar";
+            boton.onclick = () =>
+                seleccionarcita(cita.index, date, celdanombre, fila, boton, cita.estado);
+            celdaccion.appendChild(boton);
+            fila.appendChild(celdaccion);
+
+            resultado2.appendChild(fila);
+        });
+    }
+}
+
+    function limpiarCitasCreadas() {
+            //const resultado = document.getElementById('citascreadas');
+            //const resultado2 = document.getElementById('citasusuarios');
+            //console.log("Datos de citas:", resultado.firstElementChild);
+           
+
+            
+                 
+            //document.getElementById('citascreadas').innerHTML = "";
+            document.getElementById('citasusuarios').innerHTML = "";
+            //const tablaCitasCreadas = document.getElementById('citascreadas');
+            //while (tablaCitasCreadas.firstChild) {
+            //tablaCitasCreadas.removeChild(tablaCitasCreadas.firstChild);
+        }
+        
+    function seleccionarcita(index, date,celdanombre, fila, boton,celdaestado) {
+        // Cambiar el estado de la cita a "Seleccionada"
+        
+        //console.log("entrada",boton);
+        //console.log("entradadatos",index,date,celdanombre,fila,boton,celdaestado);
+        //datosCitas[index].estado = "Seleccionada";
+        if (datosCitas[index].fecha === date && datosCitas[index].estado === "Disponible") {
+        // Cambiar el estado a "Seleccionada"
+        datosCitas[index].estado = "Seleccionada";
+        datosCitas[index].id = identificacionglobal;
+        //datosCitas[index].nombre = nombreglobal;
+    }
+        //console.log("Cita actualizada:", datosCitas[index]);
+        
+        
+
+
+        // Actualizar visualmente el botón y la fila
+
+        //boton.textContent = "Cancelar";
+        //boton.onclick = () => cancelarCita(index, date, fila, boton);
+
+        // Eliminar la fila de la tabla de citas disponibles
+        fila.remove();
+        localStorage.setItem("citascreadas", JSON.stringify(datosCitas));
+        //console.log("probando_salidaguardar",datosCitas);
+
+        //console.log("Estado actualizado:", datosCitas);
+    }   
+
+</script>
+</html>
+
